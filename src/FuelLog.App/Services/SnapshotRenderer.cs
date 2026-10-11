@@ -1,9 +1,7 @@
 ﻿using System.IO;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using FuelLog.App.ViewModels;
+using FuelLog.Ui;
 
 namespace FuelLog.App.Services;
 
@@ -17,22 +15,11 @@ internal static class SnapshotRenderer
     {
         if (theme is not null)
         {
-            vm.AppSettings.Theme = theme switch
-            {
-                "dark" => FuelLog.Core.Storage.AppTheme.Dark,
-                "gray" => FuelLog.Core.Storage.AppTheme.Gray,
-                _ => FuelLog.Core.Storage.AppTheme.Light,
-            };
+            vm.AppSettings.Theme = ThemeManager.FromName(theme);
             ThemeManager.Apply(vm.AppSettings.Theme);
         }
         Directory.CreateDirectory(outputFolder);
-        window.Width = 1440;
-        window.Height = 900;
-        window.WindowStartupLocation = WindowStartupLocation.Manual;
-        window.Left = -10000; // за пределами экрана
-        window.Top = 0;
-        window.ShowActivated = false;
-        window.Show();
+        WindowSnapshot.ShowOffscreen(window);
 
         Save(window, Path.Combine(outputFolder, "0-start.png"));
 
@@ -65,27 +52,5 @@ internal static class SnapshotRenderer
         Application.Current.Shutdown();
     }
 
-    private static void Save(Window window, string path)
-    {
-        // Даём WPF выполнить отложенные привязки и раскладку.
-        for (var i = 0; i < 3; i++)
-            window.Dispatcher.Invoke(() => { }, DispatcherPriority.ApplicationIdle);
-
-        var content = (FrameworkElement)window.Content;
-        var dpi = VisualTreeHelper.GetDpi(window);
-        var bitmap = new RenderTargetBitmap(
-            (int)(content.ActualWidth * dpi.DpiScaleX), (int)(content.ActualHeight * dpi.DpiScaleY),
-            dpi.PixelsPerInchX, dpi.PixelsPerInchY, PixelFormats.Pbgra32);
-
-        var background = new DrawingVisual();
-        using (var dc = background.RenderOpen())
-            dc.DrawRectangle(window.TryFindResource("ApplicationBackgroundBrush") as Brush ?? window.Background ?? Brushes.White, null, new Rect(0, 0, content.ActualWidth, content.ActualHeight));
-        bitmap.Render(background);
-        bitmap.Render(content);
-
-        var encoder = new PngBitmapEncoder();
-        encoder.Frames.Add(BitmapFrame.Create(bitmap));
-        using var stream = File.Create(path);
-        encoder.Save(stream);
-    }
+    private static void Save(Window window, string path) => WindowSnapshot.Save(window, path);
 }

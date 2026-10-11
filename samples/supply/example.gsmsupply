@@ -1,0 +1,989 @@
+{
+  "schemaVersion": 1,
+  "name": "Пример рд",
+  "settings": {
+    "petrolDensity": 0.75,
+    "dieselDensity": 0.85
+  },
+  "links": [
+    {
+      "id": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+      "path": "example-model1.gsmproject",
+      "name": "Пример рд (модель 1)"
+    }
+  ],
+  "groups": [
+    {
+      "id": "b02b4591-17af-4fd2-bbb8-2ba75370dfeb",
+      "name": "управление",
+      "rows": [
+        {
+          "id": "efa496eb-c6cc-4173-8295-5375acf8bad4",
+          "name": "Склад рд",
+          "kind": "Warehouse",
+          "linkProjectId": null,
+          "linkUnitId": null,
+          "norm": [
+            {
+              "coefficient": 3.1,
+              "scope": "Division",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": 5000,
+          "startDieselKg": 75100
+        },
+        {
+          "id": "9e205365-4093-43f1-b7a3-d6bbd1773a37",
+          "name": "БМТО",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "783720f8-7d6b-4124-a6fa-6a84bab9bf20",
+          "norm": [
+            {
+              "coefficient": 1,
+              "scope": "Own",
+              "groupIds": []
+            },
+            {
+              "coefficient": 0.4,
+              "scope": "Division",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        },
+        {
+          "id": "761f29f7-6cde-475e-9195-cdcd47e95ef6",
+          "name": "ББО",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "65be76a6-aa22-4ad5-b203-715c232f38a7",
+          "norm": [
+            {
+              "coefficient": 1,
+              "scope": "Own",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        },
+        {
+          "id": "53adfb9b-557d-465f-87cf-bd74a1a86b94",
+          "name": "БОР",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "d16e0287-b9b1-4713-a47e-8fdd44926313",
+          "norm": [
+            {
+              "coefficient": 1,
+              "scope": "Own",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        },
+        {
+          "id": "66303b80-67a7-4358-9cc9-fda3028ba051",
+          "name": "БСБУС",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "334f151c-6972-44aa-a661-048bb8fb18ae",
+          "norm": [
+            {
+              "coefficient": 1,
+              "scope": "Own",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        },
+        {
+          "id": "95fc0352-9897-4d21-b630-8188bbbc52dd",
+          "name": "ПКП",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "e12869c2-988b-4168-b570-a2e8a1666aca",
+          "norm": [
+            {
+              "coefficient": 1,
+              "scope": "Own",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        },
+        {
+          "id": "49d2e970-c2c0-43ff-a81f-051ab2aa614e",
+          "name": "СФПС",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "51fe53a1-d1c4-4f68-9ac6-fa22c916db2b",
+          "norm": [
+            {
+              "coefficient": 1,
+              "scope": "Own",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        },
+        {
+          "id": "27d3bc56-9cfa-4f12-9ad7-bccc0b9786de",
+          "name": "ПК",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "8fe10f14-221f-4865-866e-b2b2265afb5a",
+          "norm": [
+            {
+              "coefficient": 1,
+              "scope": "Own",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        },
+        {
+          "id": "973b405a-143d-4e13-a8f4-44dee1d7c4d9",
+          "name": "ОМедБ",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "4dbd8e07-0cee-44e4-b7d1-7b26a3d3a31b",
+          "norm": [
+            {
+              "coefficient": 1,
+              "scope": "Own",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        }
+      ],
+      "warehouseRowId": "efa496eb-c6cc-4173-8295-5375acf8bad4",
+      "transportRowId": "9e205365-4093-43f1-b7a3-d6bbd1773a37",
+      "transport": [
+        {
+          "modelId": "82808952-5914-4327-bb4f-98784c5d6173",
+          "count": 7
+        },
+        {
+          "modelId": "91a4cdfd-7f9e-483d-8e5c-c49f1995f847",
+          "count": 1
+        },
+        {
+          "modelId": "163c9d15-91f6-4334-afb4-7c23a38db8cf",
+          "count": 7
+        },
+        {
+          "modelId": "0cc29b94-b199-4be2-99b0-0002a29e93af",
+          "count": 2
+        },
+        {
+          "modelId": "f3e5976f-095f-4ed4-b2a4-df382d38eb98",
+          "count": 1
+        },
+        {
+          "modelId": "f0c0bc14-21ef-4ded-a73c-37cd648a7c18",
+          "count": 1
+        },
+        {
+          "modelId": "e0552e82-bd28-4e50-a420-9ce899b9635a",
+          "count": 7
+        },
+        {
+          "modelId": "d1a0a4b9-00c1-4c08-8eef-77989aa5a17a",
+          "count": 1
+        },
+        {
+          "modelId": "c6f08e7e-01fb-47b1-a645-08dd10041e36",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "bb86dd34-e571-45e0-a5f8-ba177632827c",
+      "name": "1 рп",
+      "rows": [
+        {
+          "id": "776db87a-ff0a-4026-b740-b205c658c47a",
+          "name": "Склад рд",
+          "kind": "Warehouse",
+          "linkProjectId": null,
+          "linkUnitId": null,
+          "norm": [
+            {
+              "coefficient": 2.3,
+              "scope": "Group",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": 1600,
+          "startDieselKg": 33300
+        },
+        {
+          "id": "3cb7884f-bfc4-417c-bc06-6277f768d74b",
+          "name": "Склад рп",
+          "kind": "Warehouse",
+          "linkProjectId": null,
+          "linkUnitId": null,
+          "norm": [],
+          "startPetrolKg": 3000,
+          "startDieselKg": 60000
+        },
+        {
+          "id": "3ee9d14a-e7b4-4fe1-b6b5-24f2123d082e",
+          "name": "1рдн",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "46f20e1a-3d42-4c0d-bf8c-1ee9b04e2ae5",
+          "norm": [
+            {
+              "coefficient": 1.4,
+              "scope": "Own",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        },
+        {
+          "id": "6a297e3d-a525-41ac-b5b2-0a28b8360479",
+          "name": "2рдн",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "bdc6c7b8-90d7-4f75-a1e0-c8f6e7f16380",
+          "norm": [
+            {
+              "coefficient": 1.4,
+              "scope": "Own",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        },
+        {
+          "id": "a7446e36-17cb-4758-965a-0770ebb5c319",
+          "name": "3рдн",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "72fc58fa-3e5e-42b8-8d07-daa08b1d482e",
+          "norm": [
+            {
+              "coefficient": 1.4,
+              "scope": "Own",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        },
+        {
+          "id": "ebb83083-c5b5-49a4-b087-b8e42f4dcd4e",
+          "name": "ДБО",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "25b6b5be-7b1f-4b58-a344-02ae3dad8054",
+          "norm": [
+            {
+              "coefficient": 1,
+              "scope": "Own",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        },
+        {
+          "id": "82d657a5-123e-40c7-91fb-dac842fe1116",
+          "name": "ДБУ",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "50a09bdb-f958-4160-b1cd-2169b85e3983",
+          "norm": [
+            {
+              "coefficient": 1,
+              "scope": "Own",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        },
+        {
+          "id": "ceb7dafb-0140-4b1c-bdba-63bc2f7350a1",
+          "name": "РМТО",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "b9d14fe9-0c60-4fdc-8af8-f0c780f606d1",
+          "norm": [
+            {
+              "coefficient": 1,
+              "scope": "Own",
+              "groupIds": []
+            },
+            {
+              "coefficient": 0.4,
+              "scope": "Group",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        },
+        {
+          "id": "caa973ec-3ab0-4a08-ad17-e8293b08d800",
+          "name": "ГИО",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "c921d188-0d70-4135-99e8-6f815d0cef05",
+          "norm": [
+            {
+              "coefficient": 1,
+              "scope": "Own",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        },
+        {
+          "id": "74fcac88-905d-44bc-ab2b-0417dda86a2f",
+          "name": "ЭРО",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "fafa8aa1-a9e5-4bfd-84fc-1bca2ac23d9b",
+          "norm": [
+            {
+              "coefficient": 1,
+              "scope": "Own",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        },
+        {
+          "id": "f82cbac5-d160-40e6-83e1-0bf72a373a4e",
+          "name": "ПК",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "14482278-7e51-4f1a-959e-2b81200b3329",
+          "norm": [
+            {
+              "coefficient": 1,
+              "scope": "Own",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        },
+        {
+          "id": "12210636-c549-4b28-a641-770989a1adbd",
+          "name": "МедП",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "189d8ade-bbf7-45c8-a9ed-be71c9f59178",
+          "norm": [
+            {
+              "coefficient": 1,
+              "scope": "Own",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        }
+      ],
+      "warehouseRowId": "3cb7884f-bfc4-417c-bc06-6277f768d74b",
+      "transportRowId": "ceb7dafb-0140-4b1c-bdba-63bc2f7350a1",
+      "transport": [
+        {
+          "modelId": "da857317-af8d-4d60-bc66-a49f1c97be2c",
+          "count": 1
+        },
+        {
+          "modelId": "f0c0bc14-21ef-4ded-a73c-37cd648a7c18",
+          "count": 1
+        },
+        {
+          "modelId": "e0552e82-bd28-4e50-a420-9ce899b9635a",
+          "count": 1
+        },
+        {
+          "modelId": "e0983dc3-c3b1-4c86-a0d6-55bd03937ecb",
+          "count": 1
+        },
+        {
+          "modelId": "91a4cdfd-7f9e-483d-8e5c-c49f1995f847",
+          "count": 1
+        },
+        {
+          "modelId": "82808952-5914-4327-bb4f-98784c5d6173",
+          "count": 2
+        },
+        {
+          "modelId": "02faf65d-07c6-4aee-b98c-9bdcc5136e8a",
+          "count": 1
+        },
+        {
+          "modelId": "c6f08e7e-01fb-47b1-a645-08dd10041e36",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "a145c1e2-a073-4b0e-a146-0765fd9c17ed",
+      "name": "трб",
+      "rows": [
+        {
+          "id": "89806509-1e8d-452c-941f-442e2b46c294",
+          "name": "Склад рд",
+          "kind": "Warehouse",
+          "linkProjectId": null,
+          "linkUnitId": null,
+          "norm": [
+            {
+              "coefficient": 2.3,
+              "scope": "Group",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": 0,
+          "startDieselKg": 8400
+        },
+        {
+          "id": "398d67c8-e1e5-4b06-9eaf-b2bd0fe62ec7",
+          "name": "Склад трб",
+          "kind": "Warehouse",
+          "linkProjectId": null,
+          "linkUnitId": null,
+          "norm": [
+            {
+              "coefficient": 0.5,
+              "scope": "Group",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": 0,
+          "startDieselKg": 1800
+        },
+        {
+          "id": "6711a11e-1ec6-4a61-b740-5dfdb9d480e0",
+          "name": "рмто",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "fe115e5b-080d-4bb0-9c07-79f594526969",
+          "norm": [
+            {
+              "coefficient": 1,
+              "scope": "Own",
+              "groupIds": []
+            },
+            {
+              "coefficient": 0.3,
+              "scope": "Group",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        },
+        {
+          "id": "97849a27-e2f6-423a-992b-41e4598507b7",
+          "name": "1ГИР ПУ",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "e2e91067-bcaf-4e92-a225-2918d79d610d",
+          "norm": [
+            {
+              "coefficient": 1,
+              "scope": "Own",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        },
+        {
+          "id": "66dfa018-b3c8-4602-a54d-c2fa38b13f1e",
+          "name": "2ГИР ПУ",
+          "kind": "Unit",
+          "linkProjectId": "2b6773e4-df74-408a-b988-c1b056fc2e19",
+          "linkUnitId": "943720e1-e3b8-4d7d-bd62-ea52a0e58dd3",
+          "norm": [
+            {
+              "coefficient": 1,
+              "scope": "Own",
+              "groupIds": []
+            }
+          ],
+          "startPetrolKg": null,
+          "startDieselKg": null
+        }
+      ],
+      "warehouseRowId": "398d67c8-e1e5-4b06-9eaf-b2bd0fe62ec7",
+      "transportRowId": "6711a11e-1ec6-4a61-b740-5dfdb9d480e0",
+      "transport": [
+        {
+          "modelId": "f0c0bc14-21ef-4ded-a73c-37cd648a7c18",
+          "count": 2
+        },
+        {
+          "modelId": "c6f08e7e-01fb-47b1-a645-08dd10041e36",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "mainWarehouseRowId": "efa496eb-c6cc-4173-8295-5375acf8bad4",
+  "transportCatalog": [
+    {
+      "id": "82808952-5914-4327-bb4f-98784c5d6173",
+      "name": "АТЗ-7-5350 (КамАЗ-5350)",
+      "fuel": "Diesel",
+      "capacityLiters": 7000
+    },
+    {
+      "id": "91a4cdfd-7f9e-483d-8e5c-c49f1995f847",
+      "name": "АЦ-7-4310 (КамАЗ-4310)",
+      "fuel": "Diesel",
+      "capacityLiters": 7000
+    },
+    {
+      "id": "163c9d15-91f6-4334-afb4-7c23a38db8cf",
+      "name": "АЦ-5,5-4310 (КамАЗ-4310)",
+      "fuel": "Diesel",
+      "capacityLiters": 5500
+    },
+    {
+      "id": "0cc29b94-b199-4be2-99b0-0002a29e93af",
+      "name": "ТЗА-7,5-5335 (МАЗ-5335)",
+      "fuel": "Diesel",
+      "capacityLiters": 7500
+    },
+    {
+      "id": "f3e5976f-095f-4ed4-b2a4-df382d38eb98",
+      "name": "АЦ-8,7-5320 (КамАЗ-5320)",
+      "fuel": "Diesel",
+      "capacityLiters": 8700
+    },
+    {
+      "id": "f0c0bc14-21ef-4ded-a73c-37cd648a7c18",
+      "name": "АЦ-10-4320 (Урал-4320)",
+      "fuel": "Diesel",
+      "capacityLiters": 10000
+    },
+    {
+      "id": "e0552e82-bd28-4e50-a420-9ce899b9635a",
+      "name": "АЦ-9-5320 (КамАЗ-4320)",
+      "fuel": "Diesel",
+      "capacityLiters": 9000
+    },
+    {
+      "id": "d1a0a4b9-00c1-4c08-8eef-77989aa5a17a",
+      "name": "АТЗ-9,0-4320 (Урал-4320)",
+      "fuel": "Diesel",
+      "capacityLiters": 9000
+    },
+    {
+      "id": "da857317-af8d-4d60-bc66-a49f1c97be2c",
+      "name": "АТЗ-10-4320 (Урал-4320)",
+      "fuel": "Diesel",
+      "capacityLiters": 10000
+    },
+    {
+      "id": "e0983dc3-c3b1-4c86-a0d6-55bd03937ecb",
+      "name": "АТЗ-8-4320 (Урал-4320)",
+      "fuel": "Diesel",
+      "capacityLiters": 8000
+    },
+    {
+      "id": "02faf65d-07c6-4aee-b98c-9bdcc5136e8a",
+      "name": "АМЗ-7,0-5557 (Урал-5557)",
+      "fuel": "Diesel",
+      "capacityLiters": 7000
+    },
+    {
+      "id": "c6f08e7e-01fb-47b1-a645-08dd10041e36",
+      "name": "АТМЗ-5,5-4310 (КамАЗ-4310)",
+      "fuel": "Petrol",
+      "capacityLiters": 5500
+    }
+  ],
+  "days": [
+    {
+      "date": "2026-03-10",
+      "rows": [
+        {
+          "rowId": "efa496eb-c6cc-4173-8295-5375acf8bad4",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 30000,
+          "refuel": false,
+          "refuelKg": null
+        },
+        {
+          "rowId": "3cb7884f-bfc4-417c-bc06-6277f768d74b",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 20000,
+          "refuel": false,
+          "refuelKg": null
+        },
+        {
+          "rowId": "3ee9d14a-e7b4-4fe1-b6b5-24f2123d082e",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "6a297e3d-a525-41ac-b5b2-0a28b8360479",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "a7446e36-17cb-4758-965a-0770ebb5c319",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "95fc0352-9897-4d21-b630-8188bbbc52dd",
+          "fuel": "Diesel",
+          "lossKg": 120,
+          "receivedKg": 0,
+          "refuel": false,
+          "refuelKg": null
+        }
+      ],
+      "groups": [
+        {
+          "groupId": "bb86dd34-e571-45e0-a5f8-ba177632827c",
+          "fuel": "Diesel",
+          "inTransport": true
+        }
+      ]
+    },
+    {
+      "date": "2026-03-11",
+      "rows": [
+        {
+          "rowId": "3ee9d14a-e7b4-4fe1-b6b5-24f2123d082e",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "3ee9d14a-e7b4-4fe1-b6b5-24f2123d082e",
+          "fuel": "Petrol",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "6a297e3d-a525-41ac-b5b2-0a28b8360479",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "6a297e3d-a525-41ac-b5b2-0a28b8360479",
+          "fuel": "Petrol",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "a7446e36-17cb-4758-965a-0770ebb5c319",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "a7446e36-17cb-4758-965a-0770ebb5c319",
+          "fuel": "Petrol",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "ebb83083-c5b5-49a4-b087-b8e42f4dcd4e",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "ebb83083-c5b5-49a4-b087-b8e42f4dcd4e",
+          "fuel": "Petrol",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "82d657a5-123e-40c7-91fb-dac842fe1116",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "82d657a5-123e-40c7-91fb-dac842fe1116",
+          "fuel": "Petrol",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "ceb7dafb-0140-4b1c-bdba-63bc2f7350a1",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "ceb7dafb-0140-4b1c-bdba-63bc2f7350a1",
+          "fuel": "Petrol",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "caa973ec-3ab0-4a08-ad17-e8293b08d800",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "caa973ec-3ab0-4a08-ad17-e8293b08d800",
+          "fuel": "Petrol",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "74fcac88-905d-44bc-ab2b-0417dda86a2f",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "74fcac88-905d-44bc-ab2b-0417dda86a2f",
+          "fuel": "Petrol",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "f82cbac5-d160-40e6-83e1-0bf72a373a4e",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "f82cbac5-d160-40e6-83e1-0bf72a373a4e",
+          "fuel": "Petrol",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "12210636-c549-4b28-a641-770989a1adbd",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "12210636-c549-4b28-a641-770989a1adbd",
+          "fuel": "Petrol",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "6711a11e-1ec6-4a61-b740-5dfdb9d480e0",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "6711a11e-1ec6-4a61-b740-5dfdb9d480e0",
+          "fuel": "Petrol",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "97849a27-e2f6-423a-992b-41e4598507b7",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "97849a27-e2f6-423a-992b-41e4598507b7",
+          "fuel": "Petrol",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "66dfa018-b3c8-4602-a54d-c2fa38b13f1e",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "66dfa018-b3c8-4602-a54d-c2fa38b13f1e",
+          "fuel": "Petrol",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "398d67c8-e1e5-4b06-9eaf-b2bd0fe62ec7",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 8000,
+          "refuel": false,
+          "refuelKg": null
+        }
+      ],
+      "groups": [
+        {
+          "groupId": "bb86dd34-e571-45e0-a5f8-ba177632827c",
+          "fuel": "Diesel",
+          "inTransport": true
+        }
+      ]
+    },
+    {
+      "date": "2026-03-12",
+      "rows": [
+        {
+          "rowId": "9e205365-4093-43f1-b7a3-d6bbd1773a37",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "761f29f7-6cde-475e-9195-cdcd47e95ef6",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "53adfb9b-557d-465f-87cf-bd74a1a86b94",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "66303b80-67a7-4358-9cc9-fda3028ba051",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "95fc0352-9897-4d21-b630-8188bbbc52dd",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "49d2e970-c2c0-43ff-a81f-051ab2aa614e",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "27d3bc56-9cfa-4f12-9ad7-bccc0b9786de",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        },
+        {
+          "rowId": "973b405a-143d-4e13-a8f4-44dee1d7c4d9",
+          "fuel": "Diesel",
+          "lossKg": 0,
+          "receivedKg": 0,
+          "refuel": true,
+          "refuelKg": null
+        }
+      ],
+      "groups": [
+        {
+          "groupId": "bb86dd34-e571-45e0-a5f8-ba177632827c",
+          "fuel": "Diesel",
+          "inTransport": false
+        }
+      ]
+    }
+  ]
+}

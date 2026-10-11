@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Модель 2: потребность в ГСМ и автономность по суткам. Данные о технике и расходе берёт из проектов FuelLog (модель 1). -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>FuelLog.Supply.Core</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FuelLog.Core\FuelLog.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="FuelLog.Supply.Tests" />
+  </ItemGroup>
+
+</Project>

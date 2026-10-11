@@ -1,0 +1,215 @@
+<UserControl x:Class="FuelLog.Supply.Views.StructureView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:FuelLog.Supply.ViewModels"
+             xmlns:model="clr-namespace:FuelLog.Supply.Core.Model;assembly=FuelLog.Supply.Core">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" MinWidth="240" />
+            <ColumnDefinition Width="16" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- ===== Дерево ===== -->
+        <DockPanel>
+            <TextBlock DockPanel.Dock="Top" Text="Структура рд" Style="{StaticResource SectionTitle}" />
+            <UniformGrid DockPanel.Dock="Top" Columns="3" Margin="0,0,0,8">
+                <Button Content="+ Часть" Command="{Binding AddGroupCommand}" Margin="0,0,4,0" Padding="4,6" HorizontalAlignment="Stretch"
+                        ToolTip="Добавить воинскую часть (для «…рп», «трб», «управление» — по типовой структуре)" />
+                <Button Content="+ Подразд." Command="{Binding AddUnitCommand}" Margin="2,0" Padding="4,6" HorizontalAlignment="Stretch"
+                        ToolTip="Добавить подразделение в выделенную часть" />
+                <Button Content="+ Склад" Command="{Binding AddWarehouseCommand}" Margin="4,0,0,0" Padding="4,6" HorizontalAlignment="Stretch"
+                        ToolTip="Добавить склад в выделенную часть" />
+            </UniformGrid>
+            <StackPanel DockPanel.Dock="Bottom" Margin="0,8,0,0">
+                <Button Content="Сопоставить с FuelLog" Command="{Binding SyncCommand}" HorizontalAlignment="Stretch" Margin="0,0,0,6"
+                        ToolTip="Привязать подразделения к проектам FuelLog по названиям; добавить недостающие части и подразделения" />
+                <UniformGrid Rows="1">
+                    <Button Command="{Binding MoveUpCommand}" HorizontalAlignment="Stretch" Margin="0,0,4,0" Padding="0,7" ToolTip="Выше">
+                        <TextBlock Text="&#xE74A;" Style="{StaticResource Glyph}" FontSize="14" />
+                    </Button>
+                    <Button Command="{Binding MoveDownCommand}" HorizontalAlignment="Stretch" Margin="2,0" Padding="0,7" ToolTip="Ниже">
+                        <TextBlock Text="&#xE74B;" Style="{StaticResource Glyph}" FontSize="14" />
+                    </Button>
+                    <Button Command="{Binding DeleteCommand}" HorizontalAlignment="Stretch" Margin="4,0,0,0" Padding="0,7" ToolTip="Удалить выделенное">
+                        <TextBlock Text="&#xE74D;" Style="{StaticResource Glyph}" FontSize="14" Foreground="{DynamicResource SystemFillColorCriticalBrush}" />
+                    </Button>
+                </UniformGrid>
+            </StackPanel>
+
+            <Border Style="{StaticResource Card}" Padding="4">
+                <TreeView ItemsSource="{Binding Groups}" BorderThickness="0" Background="Transparent" SelectedItemChanged="OnTreeSelectionChanged">
+                    <TreeView.Resources>
+                        <HierarchicalDataTemplate DataType="{x:Type model:SupplyGroup}" ItemsSource="{Binding Rows}">
+                            <TextBlock FontWeight="SemiBold">
+                                <Run Text="{Binding Name, Mode=OneWay}" /><Run Text="{Binding Rows.Count, Mode=OneWay, StringFormat={}  {0}}" FontWeight="Normal"
+                                                                              Foreground="{DynamicResource TextFillColorSecondaryBrush}" FontSize="12" />
+                            </TextBlock>
+                        </HierarchicalDataTemplate>
+                        <DataTemplate DataType="{x:Type model:SupplyRow}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Width="22" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource Glyph}">
+                                            <Setter Property="Text" Value="&#xE804;" />
+                                            <Setter Property="ToolTip" Value="Подразделение" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Kind}" Value="{x:Static model:RowKind.Warehouse}">
+                                                    <Setter Property="Text" Value="&#xE7B8;" />
+                                                    <Setter Property="ToolTip" Value="Склад" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                                <TextBlock Text=" ⚠" Foreground="{DynamicResource SystemFillColorCautionBrush}" VerticalAlignment="Center"
+                                           ToolTip="Подразделение не привязано к FuelLog — нет массы заправки и расхода">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Kind}" Value="{x:Static model:RowKind.Unit}" />
+                                                        <Condition Binding="{Binding LinkUnitId}" Value="{x:Null}" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </TreeView.Resources>
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="TreeViewItem" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                            <Setter Property="IsExpanded" Value="True" />
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                </TreeView>
+            </Border>
+        </DockPanel>
+
+        <!-- ===== Редактор ===== -->
+        <Grid Grid.Column="2">
+            <Border Style="{StaticResource Card}" Visibility="{Binding HasSelection, Converter={StaticResource VisibleWhen}, ConverterParameter=invert}">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="520">
+                    <TextBlock Text="Выберите часть, подразделение или склад" Style="{StaticResource SectionTitle}" HorizontalAlignment="Center" />
+                    <TextBlock Style="{StaticResource Hint}" TextAlignment="Center"
+                               Text="Для части задаются склад части (из него дозаправляются подразделения и загружается транспорт) и подразделение подвоза (БМТО, РМТО). Для строки — привязка к FuelLog и установленные запасы. ⚠ — подразделение не привязано к FuelLog." />
+                </StackPanel>
+            </Border>
+
+            <!-- Часть -->
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Visibility="{Binding IsGroupSelected, Converter={StaticResource VisibleWhen}}">
+                <StackPanel MaxWidth="760" HorizontalAlignment="Left">
+                    <TextBlock Text="Воинская часть" Style="{StaticResource SectionTitle}" />
+                    <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                            <TextBlock Text="Название" Style="{StaticResource FieldLabel}" />
+                            <TextBox Text="{Binding SelectedGroup.Name, UpdateSourceTrigger=LostFocus}" Margin="0,0,0,14" />
+                            <TextBlock Text="Склад части" Style="{StaticResource FieldLabel}" />
+                            <ComboBox ItemsSource="{Binding GroupWarehouses}" SelectedItem="{Binding GroupWarehouse}" DisplayMemberPath="Name" Margin="0,0,0,4" />
+                            <TextBlock Style="{StaticResource Hint}" FontSize="12" Margin="0,0,0,14"
+                                       Text="Из него дозаправляются подразделения части и загружается транспорт подвоза; на него идёт подвоз ГСМ со склада рд." />
+                            <TextBlock Text="Подразделение подвоза" Style="{StaticResource FieldLabel}" />
+                            <ComboBox ItemsSource="{Binding GroupUnits}" SelectedItem="{Binding GroupTransport}" DisplayMemberPath="Name" Margin="0,0,0,4" />
+                            <TextBlock Style="{StaticResource Hint}" FontSize="12" Margin="0,0,0,14"
+                                       Text="БМТО, РМТО: за ним числится транспорт подвоза (вкладка «Транспорт подвоза»)." />
+                            <TextBlock Text="{Binding PreviewDiesel}" />
+                            <TextBlock Text="{Binding PreviewPetrol}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Строка -->
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Visibility="{Binding IsRowSelected, Converter={StaticResource VisibleWhen}}">
+                <StackPanel MaxWidth="820" HorizontalAlignment="Left">
+                    <TextBlock Style="{StaticResource SectionTitle}">
+                        <Run Text="{Binding OwnerGroup.Name, Mode=OneWay}" /><Run Text=" — " /><Run Text="{Binding SelectedRow.Name, Mode=OneWay}" />
+                    </TextBlock>
+                    <Border Style="{StaticResource Card}" Margin="0,0,0,12">
+                        <StackPanel>
+                            <Grid Margin="0,0,0,14">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="16" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="Название" Style="{StaticResource FieldLabel}" />
+                                    <TextBox Text="{Binding SelectedRow.Name, UpdateSourceTrigger=LostFocus}" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" VerticalAlignment="Bottom">
+                                    <CheckBox Content="Это склад" IsChecked="{Binding RowIsWarehouse}" MinWidth="0" />
+                                </StackPanel>
+                            </Grid>
+
+                            <StackPanel Visibility="{Binding RowIsWarehouse, Converter={StaticResource VisibleWhen}, ConverterParameter=invert}">
+                                <TextBlock Text="Подразделение в FuelLog (модель 1)" Style="{StaticResource FieldLabel}" />
+                                <ComboBox ItemsSource="{Binding LinkOptions}" SelectedItem="{Binding SelectedLink}" DisplayMemberPath="DisplayWithProject" />
+                                <TextBlock Style="{StaticResource Hint}" FontSize="12" Margin="0,4,0,0"
+                                           Text="Из него берутся масса заправки (Мз) своей техники, расход на выполнение задач по датам и среднесуточный расход." />
+                            </StackPanel>
+                            <StackPanel Visibility="{Binding RowIsWarehouse, Converter={StaticResource VisibleWhen}}">
+                                <CheckBox Content="Склад рд (главный): получает от округа и выдаёт на склады частей" IsChecked="{Binding RowIsMainWarehouse}" MinWidth="0" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="Установленные запасы (по приказу МО РФ №074)" Style="{StaticResource SectionTitle}" />
+                    <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                            <TextBlock Text="{Binding NormFormula}" FontFamily="Consolas" FontSize="14" Margin="0,0,0,4" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding PreviewDiesel}" Style="{StaticResource Hint}" />
+                            <TextBlock Text="{Binding PreviewPetrol}" Style="{StaticResource Hint}" Margin="0,0,0,12" />
+
+                            <DataGrid x:Name="TermsGrid" ItemsSource="{Binding SelectedRow.Norm}" SelectedItem="{Binding SelectedTerm}" Height="150">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Заправок" Width="110"
+                                                        Binding="{Binding Coefficient, Converter={StaticResource InputNumber}}"
+                                                        ElementStyle="{StaticResource RightCell}" EditingElementStyle="{StaticResource NumberEdit}" />
+                                    <DataGridTemplateColumn Header="× масса заправки (Мз)" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="{x:Type model:NormTerm}">
+                                                <ComboBox ItemsSource="{Binding DataContext.Scopes, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                          SelectedValue="{Binding Scope, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Scope"
+                                                          DisplayMemberPath="Title" SelectionChanged="OnScopeChanged" MinHeight="0" Padding="8,2" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                <Button Content="+ Слагаемое" Command="{Binding AddTermCommand}" Style="{StaticResource ToolButton}" />
+                                <Button Content="Удалить слагаемое" Command="{Binding RemoveTermCommand}" Style="{StaticResource ToolButton}" />
+                            </StackPanel>
+
+                            <StackPanel Margin="0,12,0,0" Visibility="{Binding IsSelectedGroupsTerm, Converter={StaticResource VisibleWhen}}">
+                                <TextBlock Text="Части, входящие в слагаемое:" Style="{StaticResource FieldLabel}" />
+                                <ItemsControl ItemsSource="{Binding TermGroups}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type vm:GroupCheck}">
+                                            <CheckBox Content="{Binding Group.Name}" IsChecked="{Binding IsChecked}" MinWidth="0" Margin="0,0,16,4" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+
+                            <TextBlock Style="{StaticResource Hint}" FontSize="12" Margin="0,12,0,0"
+                                       Text="Примеры: подразделение — 1 × своей техники; 1рдн — 1,4 × своей техники; склад рд в рп — 2,3 × своей воинской части; склад рд управления — 3,1 × всей рд; БМТО — 1 × своей техники + 0,4 × всей рд; РМТО — 1 × своей техники + 0,4 × своей части." />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>

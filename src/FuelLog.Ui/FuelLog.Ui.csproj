@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Общий интерфейс программ FuelLog: оформление, конвертеры, темы, диалоги, автосохранение. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>FuelLog.Ui</RootNamespace>
+    <NoWarn>$(NoWarn);WPF0001</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FuelLog.Core\FuelLog.Core.csproj" />
+  </ItemGroup>
+
+</Project>

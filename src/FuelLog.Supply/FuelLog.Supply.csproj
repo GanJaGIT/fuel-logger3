@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>FuelLog.Supply</RootNamespace>
+    <AssemblyName>FuelLogSupply</AssemblyName>
+    <ApplicationIcon>..\FuelLog.App\Assets\fuel.ico</ApplicationIcon>
+    <Description>Потребность в ГСМ и автономность (модель 2)</Description>
+    <NoWarn>$(NoWarn);WPF0001</NoWarn>
+  </PropertyGroup>
+
+  <!-- Как у FuelLog: самодостаточный exe, нативные библиотеки WPF рядом (важно для Secret Net). -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <PublishReadyToRun>true</PublishReadyToRun>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="..\FuelLog.App\Assets\fuel.ico" Link="Assets\fuel.ico" />
+  </ItemGroup>
+
+  <!-- Пример: проект FuelLog и связанный с ним документ модели 2. -->
+  <ItemGroup>
+    <None Include="..\..\samples\supply\example-model1.gsmproject" Link="Samples\example-model1.gsmproject"
+          CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+    <None Include="..\..\samples\supply\example.gsmsupply" Link="Samples\example.gsmsupply"
+          CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FuelLog.Supply.Core\FuelLog.Supply.Core.csproj" />
+    <ProjectReference Include="..\FuelLog.Ui\FuelLog.Ui.csproj" />
+    <Using Include="FuelLog.Ui" />
+  </ItemGroup>
+
+</Project>

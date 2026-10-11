@@ -1,0 +1,381 @@
+<UserControl x:Class="FuelLog.Supply.Views.DayView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:FuelLog.Supply.ViewModels"
+             xmlns:model="clr-namespace:FuelLog.Supply.Core.Model;assembly=FuelLog.Supply.Core">
+    <UserControl.Resources>
+        <Style x:Key="Num" TargetType="TextBlock" BasedOn="{StaticResource RightCell}">
+            <Setter Property="Margin" Value="2,0" />
+        </Style>
+        <!-- Потребность > 0 — выделяется -->
+        <Style x:Key="NeedCell" TargetType="TextBlock" BasedOn="{StaticResource Num}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsShortage}" Value="True">
+                    <Setter Property="Foreground" Value="{DynamicResource SystemFillColorCautionBrush}" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="BalanceCell" TargetType="TextBlock" BasedOn="{StaticResource Num}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsNegative}" Value="True">
+                    <Setter Property="Foreground" Value="{DynamicResource SystemFillColorCriticalBrush}" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="BandText" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+            <Setter Property="Margin" Value="2,4" />
+        </Style>
+        <Style x:Key="BandCell" TargetType="Border">
+            <Setter Property="BorderBrush" Value="{DynamicResource DividerStrokeColorDefaultBrush}" />
+            <Setter Property="BorderThickness" Value="0,0,1,0" />
+        </Style>
+        <Style x:Key="StatCard" TargetType="Border" BasedOn="{StaticResource Card}">
+            <Setter Property="Padding" Value="14,10" />
+            <Setter Property="Margin" Value="0,0,8,0" />
+        </Style>
+    </UserControl.Resources>
+
+    <DockPanel>
+        <!-- ===== Панель суток ===== -->
+        <Grid DockPanel.Dock="Top" Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Command="{Binding PreviousDayCommand}" Padding="10,6" ToolTip="Предыдущие сутки">
+                    <TextBlock Text="&#xE76B;" Style="{StaticResource Glyph}" />
+                </Button>
+                <ComboBox ItemsSource="{Binding Days}" SelectedItem="{Binding SelectedDay}" Width="150" Margin="6,0">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type model:SupplyDay}">
+                            <TextBlock Text="{Binding Date, Converter={StaticResource DateOnly}, StringFormat=dd.MM.yyyy}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button Command="{Binding NextDayCommand}" Padding="10,6" ToolTip="Следующие сутки">
+                    <TextBlock Text="&#xE76C;" Style="{StaticResource Glyph}" />
+                </Button>
+                <StackPanel Margin="14,0,0,0" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding DayTitle}" FontSize="16" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding DayPosition}" Style="{StaticResource Hint}" FontSize="12" />
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,16,0">
+                <RadioButton Content="ДТ" IsChecked="{Binding IsDiesel}" Style="{StaticResource Segment}" GroupName="Fuel" ToolTip="Дизельное топливо" />
+                <RadioButton Content="АБ" IsChecked="{Binding IsPetrol}" Style="{StaticResource Segment}" GroupName="Fuel" ToolTip="Автобензин" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Content="+ Следующие сутки" Command="{Binding AddDayCommand}" Style="{StaticResource ToolButton}"
+                        ToolTip="Остаток новых суток = наличие последних; состояние транспорта переносится" />
+                <Button Command="{Binding RemoveDayCommand}" Style="{StaticResource ToolButton}" Padding="10,6" ToolTip="Удалить последние сутки">
+                    <TextBlock Text="&#xE74D;" Style="{StaticResource Glyph}" Foreground="{DynamicResource SystemFillColorCriticalBrush}" />
+                </Button>
+                <Button Content="Сформировать Excel" Command="{Binding ExportCommand}" Style="{StaticResource AccentButtonStyle}" Padding="14,6"
+                        ToolTip="Документ за выбранные сутки: вкладки ДТ и АБ и лист операций" />
+            </StackPanel>
+        </Grid>
+
+        <!-- Документ не доведён до сегодняшнего дня -->
+        <Border DockPanel.Dock="Top" Style="{StaticResource WarningPanel}" Margin="0,0,0,10"
+                Visibility="{Binding TodayOffer, Converter={StaticResource VisibleWhen}}">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <Button Content="Сутки на сегодня" Command="{Binding AddTodayCommand}" Margin="0,0,6,0" Padding="10,4" />
+                    <Button Content="Следующие сутки" Command="{Binding AddDayCommand}" Padding="10,4" />
+                </StackPanel>
+                <TextBlock Text="&#xE787;" Style="{StaticResource Glyph}" Margin="0,0,10,0" />
+                <TextBlock Text="{Binding TodayOffer}" VerticalAlignment="Center" TextWrapping="Wrap" />
+            </DockPanel>
+        </Border>
+
+        <!-- Итог по рд -->
+        <UniformGrid DockPanel.Dock="Top" Rows="1" Margin="0,0,-8,10" Visibility="{Binding HasDay, Converter={StaticResource VisibleWhen}}">
+            <Border Style="{StaticResource StatCard}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource FieldLabel}">
+                        <Run Text="Установленные запасы рд," /> <Run Text="{Binding FuelTitle, Mode=OneWay}" />
+                    </TextBlock>
+                    <TextBlock Style="{StaticResource StatValue}">
+                        <Run Text="{Binding Total.NormKg, Mode=OneWay, StringFormat=N0}" /><Run Text=" кг" FontSize="13" />
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource StatCard}">
+                <StackPanel>
+                    <TextBlock Text="Наличие на конец суток" Style="{StaticResource FieldLabel}" />
+                    <TextBlock Style="{StaticResource StatValue}">
+                        <Run Text="{Binding Total.BalanceKg, Mode=OneWay, StringFormat=N0}" /><Run Text=" кг" FontSize="13" />
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource StatCard}">
+                <StackPanel>
+                    <TextBlock Text="Потребность (З − Н)" Style="{StaticResource FieldLabel}" />
+                    <TextBlock Style="{StaticResource StatValue}">
+                        <Run Text="{Binding Total.NeedKg, Mode=OneWay, StringFormat=N0}" /><Run Text=" кг" FontSize="13" />
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource StatCard}">
+                <StackPanel>
+                    <TextBlock Text="Автономность рд" Style="{StaticResource FieldLabel}" />
+                    <TextBlock Style="{StaticResource StatValue}">
+                        <Run Text="{Binding Total.AutonomyDays, Mode=OneWay, StringFormat=N1, TargetNullValue=—}" /><Run Text=" сут" FontSize="13" />
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+        </UniformGrid>
+
+        <!-- Предупреждения -->
+        <Border DockPanel.Dock="Top" Style="{StaticResource WarningPanel}" Margin="0,0,0,10"
+                Visibility="{Binding Warnings.Count, Converter={StaticResource VisibleWhen}}">
+            <StackPanel>
+                <TextBlock Text="Проверьте данные" FontWeight="SemiBold" Margin="0,0,0,4" />
+                <ItemsControl ItemsSource="{Binding Warnings}" MaxHeight="90">
+                    <ItemsControl.Template>
+                        <ControlTemplate TargetType="ItemsControl">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding StringFormat=• {0}}" TextWrapping="Wrap" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <Border Style="{StaticResource Card}" Visibility="{Binding HasDay, Converter={StaticResource VisibleWhen}, ConverterParameter=invert}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="В документе нет суток" Style="{StaticResource SectionTitle}" HorizontalAlignment="Center" />
+                <Button Content="Создать сутки на сегодня" Command="{Binding AddTodayCommand}" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Center" />
+            </StackPanel>
+        </Border>
+
+        <TabControl Padding="0,10,0,0" Background="Transparent" BorderThickness="0"
+                    Visibility="{Binding HasDay, Converter={StaticResource VisibleWhen}}">
+
+            <!-- ===== Документ ===== -->
+            <TabItem Header="Потребность и автономность">
+                <DockPanel>
+                    <!-- Верхний ярус шапки: названия граф над парами «кг / запр» -->
+                    <Grid DockPanel.Dock="Top" Margin="1,0,0,0" HorizontalAlignment="Left"
+                          Background="{DynamicResource SubtleFillColorSecondaryBrush}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="170" />
+                            <ColumnDefinition Width="124" />
+                            <ColumnDefinition Width="124" />
+                            <ColumnDefinition Width="124" />
+                            <ColumnDefinition Width="124" />
+                            <ColumnDefinition Width="124" />
+                            <ColumnDefinition Width="124" />
+                            <ColumnDefinition Width="124" />
+                            <ColumnDefinition Width="92" />
+                        </Grid.ColumnDefinitions>
+                        <Border Style="{StaticResource BandCell}"><TextBlock Text="графы 1–2" Style="{StaticResource BandText}" FontWeight="Normal" /></Border>
+                        <Border Grid.Column="1" Style="{StaticResource BandCell}"><TextBlock Text="Установленные запасы (З)" Style="{StaticResource BandText}" ToolTip="З = коэффициент × масса заправки (Мз) из модели 1" /></Border>
+                        <Border Grid.Column="2" Style="{StaticResource BandCell}"><TextBlock Text="Остаток (О)" Style="{StaticResource BandText}" ToolTip="Наличие предыдущих суток; в первые сутки — «Наличие запасов»" /></Border>
+                        <Border Grid.Column="3" Style="{StaticResource BandCell}"><TextBlock Text="Приход (Пр)" Style="{StaticResource BandText}" ToolTip="Дозаправка ВВСТ, подвоз ГСМ, загрузка транспорта" /></Border>
+                        <Border Grid.Column="4" Style="{StaticResource BandCell}"><TextBlock Text="Расход (R)" Style="{StaticResource BandText}" ToolTip="Расход на БЗ из модели 1, выдача на дозаправку и при подвозе" /></Border>
+                        <Border Grid.Column="5" Style="{StaticResource BandCell}"><TextBlock Text="Потери (Р)" Style="{StaticResource BandText}" /></Border>
+                        <Border Grid.Column="6" Style="{StaticResource BandCell}"><TextBlock Text="Наличие (Н)" Style="{StaticResource BandText}" ToolTip="Н = О + Пр − (R + Р)" /></Border>
+                        <Border Grid.Column="7" Style="{StaticResource BandCell}"><TextBlock Text="Потребность (П)" Style="{StaticResource BandText}" ToolTip="П = З − Н" /></Border>
+                        <TextBlock Grid.Column="8" Text="Автономность&#10;(А)" Style="{StaticResource BandText}" ToolTip="А = Н / среднесуточный расход (модель 1)" />
+                    </Grid>
+
+                    <DataGrid ItemsSource="{Binding DocumentRows}" IsReadOnly="True" CanUserSortColumns="False" CanUserResizeColumns="False"
+                              RowHeight="30" HorizontalAlignment="Left">
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsHeader}" Value="True">
+                                        <Setter Property="FontWeight" Value="SemiBold" />
+                                        <Setter Property="Foreground" Value="{DynamicResource AccentTextFillColorPrimaryBrush}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsTotal}" Value="True">
+                                        <Setter Property="FontWeight" Value="SemiBold" />
+                                        <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:DocRowKind.GrandTotal}">
+                                        <Setter Property="Background" Value="{DynamicResource AccentFillColorDisabledBrush}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsWarehouse}" Value="True">
+                                        <Setter Property="FontStyle" Value="Italic" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Подразделение" Binding="{Binding Name}" Width="170" />
+                            <DataGridTextColumn Header="кг" Binding="{Binding NormKg, Converter={StaticResource Number}, ConverterParameter=N0}" Width="72" ElementStyle="{StaticResource Num}" />
+                            <DataGridTextColumn Header="запр" Binding="{Binding NormRefills, Converter={StaticResource Number}, ConverterParameter=0.0#}" Width="52" ElementStyle="{StaticResource Num}" />
+                            <DataGridTextColumn Header="кг" Binding="{Binding OpeningKg, Converter={StaticResource Number}, ConverterParameter=N0}" Width="72" ElementStyle="{StaticResource Num}" />
+                            <DataGridTextColumn Header="запр" Binding="{Binding OpeningRefills, Converter={StaticResource Number}}" Width="52" ElementStyle="{StaticResource Num}" />
+                            <DataGridTextColumn Header="кг" Binding="{Binding IncomeKg, Converter={StaticResource Number}, ConverterParameter=N0}" Width="72" ElementStyle="{StaticResource Num}" />
+                            <DataGridTextColumn Header="запр" Binding="{Binding IncomeRefills, Converter={StaticResource Number}}" Width="52" ElementStyle="{StaticResource Num}" />
+                            <DataGridTextColumn Header="кг" Binding="{Binding ExpenseKg, Converter={StaticResource Number}, ConverterParameter=N0}" Width="72" ElementStyle="{StaticResource Num}" />
+                            <DataGridTextColumn Header="запр" Binding="{Binding ExpenseRefills, Converter={StaticResource Number}}" Width="52" ElementStyle="{StaticResource Num}" />
+                            <DataGridTextColumn Header="кг" Binding="{Binding LossKg, Converter={StaticResource Number}, ConverterParameter=N0}" Width="72" ElementStyle="{StaticResource Num}" />
+                            <DataGridTextColumn Header="запр" Binding="{Binding LossRefills, Converter={StaticResource Number}}" Width="52" ElementStyle="{StaticResource Num}" />
+                            <DataGridTextColumn Header="кг" Binding="{Binding BalanceKg, Converter={StaticResource Number}, ConverterParameter=N0}" Width="72" ElementStyle="{StaticResource BalanceCell}" />
+                            <DataGridTextColumn Header="запр" Binding="{Binding BalanceRefills, Converter={StaticResource Number}}" Width="52" ElementStyle="{StaticResource BalanceCell}" />
+                            <DataGridTextColumn Header="кг" Binding="{Binding NeedKg, Converter={StaticResource Number}, ConverterParameter=N0}" Width="72" ElementStyle="{StaticResource NeedCell}" />
+                            <DataGridTextColumn Header="запр" Binding="{Binding NeedRefills, Converter={StaticResource Number}}" Width="52" ElementStyle="{StaticResource NeedCell}" />
+                            <DataGridTextColumn Header="сут" Binding="{Binding Autonomy, Converter={StaticResource Number}, ConverterParameter=N1}" Width="92" ElementStyle="{StaticResource Num}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </TabItem>
+
+            <!-- ===== Дозаправка ВВСТ ===== -->
+            <TabItem Header="Дозаправка ВВСТ">
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Top" Margin="0,0,0,10">
+                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                            <Button Content="Дозаправить всех" Command="{Binding RefuelAllCommand}" Style="{StaticResource ToolButton}" />
+                            <Button Content="Снять все" Command="{Binding RefuelNoneCommand}" Style="{StaticResource ToolButton}" Margin="0" />
+                        </StackPanel>
+                        <TextBlock Style="{StaticResource Hint}" VerticalAlignment="Center" Margin="0,0,16,0"
+                                   Text="Отметьте подразделения, которые дозаправились: топливо списывается со склада части (графа «Расход» склада) и добавляется подразделению (графа «Приход»). По умолчанию — до установленных запасов; можно указать количество вручную." />
+                    </DockPanel>
+                    <DataGrid ItemsSource="{Binding RefuelRows}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Воинская часть" Binding="{Binding Group.Name}" IsReadOnly="True" Width="130" />
+                            <DataGridTextColumn Header="Подразделение" Binding="{Binding Row.Name}" IsReadOnly="True" Width="*" MinWidth="140" />
+                            <DataGridTextColumn Header="Склад-источник" Binding="{Binding Supplier}" IsReadOnly="True" Width="200" />
+                            <DataGridTextColumn Header="Нужно до установленных запасов, кг" Binding="{Binding NeedKg, Converter={StaticResource Number}, ConverterParameter=N0}" IsReadOnly="True" Width="150" ElementStyle="{StaticResource Num}" />
+                            <DataGridTemplateColumn Header="Дозаправка" Width="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="{x:Type vm:RefuelRow}">
+                                        <CheckBox IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}" MinWidth="0" HorizontalAlignment="Center" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Количество вручную, кг" Width="140"
+                                                Binding="{Binding ManualKg, Converter={StaticResource OptionalNumber}}"
+                                                ElementStyle="{StaticResource Num}" EditingElementStyle="{StaticResource NumberEdit}" />
+                            <DataGridTextColumn Header="Получено, кг" Binding="{Binding ReceivedKg, Converter={StaticResource Number}, ConverterParameter=N0}" IsReadOnly="True" Width="120" ElementStyle="{StaticResource Num}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </TabItem>
+
+            <!-- ===== Подвоз ===== -->
+            <TabItem Header="Подвоз ГСМ">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Style="{StaticResource Hint}" Margin="0,0,0,10"
+                               Text="Укажите, сколько получил каждый склад. Склад рд получает от округа; всё, что получили склады частей, автоматически записывается в выдачу склада рд." />
+                    <DataGrid ItemsSource="{Binding DeliveryRows}" HorizontalAlignment="Left">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Воинская часть" Binding="{Binding Group.Name}" IsReadOnly="True" Width="150" />
+                            <DataGridTextColumn Header="Склад" Binding="{Binding Row.Name}" IsReadOnly="True" Width="180" />
+                            <DataGridTextColumn Header="Откуда" Binding="{Binding Source}" IsReadOnly="True" Width="140" />
+                            <DataGridTextColumn Header="Получено, кг" Width="130"
+                                                Binding="{Binding ReceivedKg, Converter={StaticResource InputNumber}}"
+                                                ElementStyle="{StaticResource Num}" EditingElementStyle="{StaticResource NumberEdit}" />
+                            <DataGridTextColumn Header="Выдано, кг" Binding="{Binding IssuedKg, Converter={StaticResource Number}, ConverterParameter=N0}" IsReadOnly="True" Width="130" ElementStyle="{StaticResource Num}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </TabItem>
+
+            <!-- ===== Загрузка в транспорт ===== -->
+            <TabItem Header="Загрузка в транспорт">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Style="{StaticResource Hint}" Margin="0,0,0,10"
+                               Text="Переключатель для каждой части. При загрузке топливо в объёме возможностей транспорта списывается со склада части и передаётся подразделению подвоза (БМТО, РМТО); при разгрузке — обратно. Состояние переносится на следующие сутки." />
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding TransportRows}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type vm:TransportRow}">
+                                    <Border Style="{StaticResource Card}" Margin="0,0,0,8" Padding="14,10">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="160" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Group.Name}" FontWeight="SemiBold" FontSize="15" VerticalAlignment="Center" />
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock>
+                                                    <Run Text="{Binding WarehouseName, Mode=OneWay}" /><Run Text="  →  " /><Run Text="{Binding TransportName, Mode=OneWay}" />
+                                                    <Run Text="   ·   возможности " Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                                                    <Run Text="{Binding CapacityLiters, Mode=OneWay, StringFormat=N0}" /><Run Text=" л = " />
+                                                    <Run Text="{Binding CapacityKg, Mode=OneWay, StringFormat=N0}" /><Run Text=" кг" />
+                                                </TextBlock>
+                                                <TextBlock Text="{Binding ChangeText}" Style="{StaticResource Hint}" FontSize="12" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                                <RadioButton Content="Топливо на складе" Style="{StaticResource Segment}"
+                                                             IsChecked="{Binding InTransport, Converter={StaticResource Not}}" />
+                                                <RadioButton Content="Топливо в транспорте" Style="{StaticResource Segment}"
+                                                             IsChecked="{Binding InTransport}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+            </TabItem>
+
+            <!-- ===== Потери ===== -->
+            <TabItem Header="Потери">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Style="{StaticResource Hint}" Margin="0,0,0,10"
+                               Text="Проставляются вручную при их наличии (кг). Двойной щелчок или F2 — правка." />
+                    <DataGrid ItemsSource="{Binding LossRows}" HorizontalAlignment="Left">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Воинская часть" Binding="{Binding Group.Name}" IsReadOnly="True" Width="150" />
+                            <DataGridTextColumn Header="Подразделение" Binding="{Binding Row.Name}" IsReadOnly="True" Width="200" />
+                            <DataGridTextColumn Header="Потери, кг" Width="130"
+                                                Binding="{Binding LossKg, Converter={StaticResource InputNumber}}"
+                                                ElementStyle="{StaticResource Num}" EditingElementStyle="{StaticResource NumberEdit}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </TabItem>
+
+            <!-- ===== Расход на БЗ ===== -->
+            <TabItem Header="Расход на БЗ (FuelLog)">
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Top" Margin="0,0,0,10">
+                        <Button DockPanel.Dock="Right" Content="Обновить из FuelLog" Command="{Binding RefreshModel1Command}" Style="{StaticResource ToolButton}" Margin="0" />
+                        <StackPanel Margin="0,0,16,0">
+                            <TextBlock Style="{StaticResource Hint}"
+                                       Text="Расход на выполнение боевых задач берётся из отчёта FuelLog (модель 1) за дату суток — по задачам, отмеченным «в расчёт». Среднесуточный расход используется для автономности." />
+                            <TextBlock Text="{Binding Model1Dates}" Style="{StaticResource Hint}" FontSize="12" Margin="0,4,0,0" />
+                        </StackPanel>
+                    </DockPanel>
+                    <DataGrid ItemsSource="{Binding TaskRows}" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Воинская часть" Binding="{Binding Group.Name}" Width="130" />
+                            <DataGridTextColumn Header="Подразделение" Binding="{Binding Row.Name}" Width="*" MinWidth="140" />
+                            <DataGridTextColumn Header="В FuelLog" Binding="{Binding Link}" Width="200" />
+                            <DataGridTextColumn Header="Мз своей техники, кг" Binding="{Binding OwnMass, Converter={StaticResource Number}, ConverterParameter=N0}" Width="130" ElementStyle="{StaticResource Num}" />
+                            <DataGridTextColumn Header="Расход за сутки, кг" Binding="{Binding TasksKg, Converter={StaticResource Number}, ConverterParameter=N0}" Width="130" ElementStyle="{StaticResource Num}" />
+                            <DataGridTextColumn Header="Среднесуточный, кг/сут" Binding="{Binding DailyKg, Converter={StaticResource Number}, ConverterParameter=N0}" Width="140" ElementStyle="{StaticResource Num}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</UserControl>

@@ -10,8 +10,11 @@ dotnet test FuelLog.slnx -c Release
 if ($LASTEXITCODE -ne 0) { throw 'Тесты не прошли — сборка остановлена.' }
 
 if (Test-Path publish) { Remove-Item publish -Recurse -Force }
+# Обе программы — в одну папку: FuelLog.exe (модель 1) и FuelLogSupply.exe (потребность и автономность).
 dotnet publish src/FuelLog.App -c Release -o publish
-if ($LASTEXITCODE -ne 0) { throw 'Ошибка публикации.' }
+if ($LASTEXITCODE -ne 0) { throw 'Ошибка публикации FuelLog.' }
+dotnet publish src/FuelLog.Supply -c Release -o publish
+if ($LASTEXITCODE -ne 0) { throw 'Ошибка публикации «Потребности и автономности».' }
 
 # Переносная версия: архив с папкой FuelLog внутри.
 New-Item -ItemType Directory -Force dist | Out-Null

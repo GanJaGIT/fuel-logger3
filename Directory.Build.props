@@ -4,7 +4,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <Version>4.1.0</Version>
+    <Version>4.2.0</Version>
     <Company>Ганжа А.А. ВА РВСН</Company>
     <Product>FuelLog</Product>
     <Copyright>© 2026 Ганжа А.А.</Copyright>

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace FuelLog.Core.Storage;
 
-internal static class Json
+public static class Json
 {
     /// <summary>camelCase, отступы, кириллица без экранирования — файл можно читать и править вручную.</summary>
     public static readonly JsonSerializerOptions Options = new()

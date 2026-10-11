@@ -85,30 +85,7 @@ public static class ProjectStore
     public static string BackupFolder(string projectPath) =>
         Path.Combine(Path.GetDirectoryName(Path.GetFullPath(projectPath))!, BackupFolderName);
 
-    private static void Backup(string path)
-    {
-        try
-        {
-            var folder = BackupFolder(path);
-            Directory.CreateDirectory(folder);
-            var name = Path.GetFileNameWithoutExtension(path);
-
-            // Не чаще одной копии в минуту: автосохранение срабатывает часто.
-            var stamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm");
-            File.Copy(path, Path.Combine(folder, $"{name}_{stamp}{Extension}"), overwrite: true);
-
-            var old = new DirectoryInfo(folder)
-                .GetFiles($"{name}_*{Extension}")
-                .OrderByDescending(f => f.Name, StringComparer.Ordinal)
-                .Skip(BackupsToKeep);
-            foreach (var file in old)
-                file.Delete();
-        }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-        {
-            // Резервная копия желательна, но её сбой не должен мешать сохранению проекта.
-        }
-    }
+    private static void Backup(string path) => FileBackups.Create(path, BackupFolder(path), BackupsToKeep);
 
     /// <summary>Восстанавливает инварианты после ручной правки файла или импорта.</summary>
     internal static void Normalize(Project project, string path)

@@ -2,7 +2,7 @@ using System.Windows;
 using System.Windows.Media;
 using FuelLog.Core.Storage;
 
-namespace FuelLog.App.Services;
+namespace FuelLog.Ui;
 
 /// <summary>
 /// Переключение темы. Светлая, тёмная и системная — встроенная тема Fluent;
@@ -13,6 +13,14 @@ public static class ThemeManager
     private static readonly ResourceDictionary GrayPalette = CreateGrayPalette();
 
     public static AppTheme Current { get; private set; } = AppTheme.System;
+
+    /// <summary>Тема по названию из командной строки: light, gray, dark.</summary>
+    public static AppTheme FromName(string name) => name switch
+    {
+        "dark" => AppTheme.Dark,
+        "gray" => AppTheme.Gray,
+        _ => AppTheme.Light,
+    };
 
     public static void Apply(AppTheme theme)
     {

@@ -15,10 +15,12 @@
 
   <ItemGroup>
     <Using Include="Xunit" />
+    <Using Include="FuelLog.Ui" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\FuelLog.App\FuelLog.App.csproj" />
+    <ProjectReference Include="..\..\src\FuelLog.Supply\FuelLog.Supply.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,14 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/FuelLog.Core/FuelLog.Core.csproj" />
+    <Project Path="src/FuelLog.Ui/FuelLog.Ui.csproj" />
     <Project Path="src/FuelLog.App/FuelLog.App.csproj" />
+    <Project Path="src/FuelLog.Supply.Core/FuelLog.Supply.Core.csproj" />
+    <Project Path="src/FuelLog.Supply/FuelLog.Supply.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/FuelLog.Tests/FuelLog.Tests.csproj" />
     <Project Path="tests/FuelLog.App.Tests/FuelLog.App.Tests.csproj" />
+    <Project Path="tests/FuelLog.Supply.Tests/FuelLog.Supply.Tests.csproj" />
   </Folder>
 </Solution>

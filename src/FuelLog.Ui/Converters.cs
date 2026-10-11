@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Data;
 using FuelLog.Core.Model;
 
-namespace FuelLog.App;
+namespace FuelLog.Ui;
 
 public sealed class DateOnlyConverter : IValueConverter
 {
@@ -63,16 +63,20 @@ public sealed class InputNumberConverter : IValueConverter
 {
     private static readonly CultureInfo Ru = CultureInfo.GetCultureInfo("ru-RU");
 
+    /// <summary>Убирает пробелы (в том числе неразрывные — разделители тысяч) и приводит точку к запятой.</summary>
+    internal static string Clean(object? value) =>
+        new string((value as string ?? string.Empty).Where(ch => !char.IsWhiteSpace(ch)).ToArray()).Replace('.', ',');
+
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture) => value switch
     {
-        double d => d.ToString("0.###", Ru),
-        int i => i.ToString(Ru),
+        double d => d.ToString("#,0.###", Ru),
+        int i => i.ToString("#,0", Ru),
         _ => string.Empty,
     };
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        var text = (value as string ?? string.Empty).Trim().Replace(" ", "").Replace('.', ',');
+        var text = Clean(value);
         if (text.Length == 0)
             text = "0";
 
@@ -85,6 +89,36 @@ public sealed class InputNumberConverter : IValueConverter
             ? d
             : DependencyProperty.UnsetValue;
     }
+}
+
+/// <summary>
+/// Необязательное число: пустое поле — null (значение по умолчанию), иначе неотрицательное число.
+/// Принимает запятую и точку.
+/// </summary>
+public sealed class OptionalNumberConverter : IValueConverter
+{
+    private static readonly CultureInfo Ru = CultureInfo.GetCultureInfo("ru-RU");
+
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture) =>
+        value is double d ? d.ToString("#,0.###", Ru) : string.Empty;
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        var text = InputNumberConverter.Clean(value);
+        if (text.Length == 0)
+            return null;
+        return double.TryParse(text, NumberStyles.Float, Ru, out var d) && d >= 0 && double.IsFinite(d)
+            ? d
+            : DependencyProperty.UnsetValue;
+    }
+}
+
+/// <summary>Логическое «не» — в обе стороны.</summary>
+public sealed class NotConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture) => value is not true;
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => value is not true;
 }
 
 /// <summary>Число с заданным количеством знаков; ноль показывается как «—», чтобы таблица читалась легче.</summary>

@@ -1,13 +1,13 @@
 using System.Windows;
 
-namespace FuelLog.App.Views;
+namespace FuelLog.Ui;
 
 public partial class PromptDialog : Window
 {
     public PromptDialog(string title, string label, string initial)
     {
         InitializeComponent();
-        Services.ThemeManager.Decorate(this);
+        ThemeManager.Decorate(this);
         Title = title;
         LabelText.Text = label;
         ValueBox.Text = initial;

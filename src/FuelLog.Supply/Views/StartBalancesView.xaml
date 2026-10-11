@@ -1,0 +1,63 @@
+<UserControl x:Class="FuelLog.Supply.Views.StartBalancesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Top">
+                <RadioButton Content="ДТ" IsChecked="{Binding IsDiesel}" Style="{StaticResource Segment}" GroupName="StartFuel" />
+                <RadioButton Content="АБ" IsChecked="{Binding IsPetrol}" Style="{StaticResource Segment}" GroupName="StartFuel" />
+            </StackPanel>
+            <StackPanel Margin="0,0,16,0">
+                <TextBlock Text="Наличие запасов" Style="{StaticResource SectionTitle}" Margin="0" />
+                <TextBlock Text="{Binding FirstDayText}" Style="{StaticResource Hint}" />
+            </StackPanel>
+        </DockPanel>
+
+        <UniformGrid DockPanel.Dock="Top" Columns="2" Margin="0,0,0,12">
+            <Border Style="{StaticResource Card}" Margin="0,0,6,0" Padding="14,10">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Left" Text="&#xE7B8;" Style="{StaticResource Glyph}" FontSize="18" Margin="0,0,12,0"
+                               Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" />
+                    <TextBlock Style="{StaticResource Hint}"
+                               Text="Склады: количество топлива проставляет начальник службы ГСМ по книгам учёта (на этапе приведения в БГ — с учётом НЗ и ПЗ). Перевод в заправки программа делает сама." />
+                </DockPanel>
+            </Border>
+            <Border Style="{StaticResource Card}" Margin="6,0,0,0" Padding="14,10">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Left" Text="&#xE804;" Style="{StaticResource Glyph}" FontSize="18" Margin="0,0,12,0"
+                               Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" />
+                    <TextBlock Style="{StaticResource Hint}"
+                               Text="Подразделения: по умолчанию 1 заправка — масса заправки берётся из FuelLog (у БМТО и РМТО — с их долей запасов части). Если нужно другое количество, впишите его; пустое поле — значение по умолчанию." />
+                </DockPanel>
+            </Border>
+        </UniformGrid>
+
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,8,0,0">
+            <Button Content="Подразделения — по умолчанию" Command="{Binding ResetUnitsCommand}" Style="{StaticResource ToolButton}"
+                    ToolTip="Очистить ручные значения у подразделений выбранного вида топлива" />
+        </StackPanel>
+
+        <DataGrid ItemsSource="{Binding Rows}" HorizontalAlignment="Left">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsWarehouse}" Value="True">
+                            <Setter Property="FontWeight" Value="SemiBold" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Воинская часть" Binding="{Binding Group.Name}" IsReadOnly="True" Width="150" />
+                <DataGridTextColumn Header="Подразделение" Binding="{Binding Row.Name}" IsReadOnly="True" Width="190" />
+                <DataGridTextColumn Header="Вид" Binding="{Binding KindText}" IsReadOnly="True" Width="120" />
+                <DataGridTextColumn Header="По умолчанию, кг" Binding="{Binding DefaultKg, Converter={StaticResource Number}, ConverterParameter=N0}" IsReadOnly="True" Width="130" ElementStyle="{StaticResource RightCell}" />
+                <DataGridTextColumn Header="Указано, кг" Width="130"
+                                    Binding="{Binding ManualKg, Converter={StaticResource OptionalNumber}}"
+                                    ElementStyle="{StaticResource RightCell}" EditingElementStyle="{StaticResource NumberEdit}" />
+                <DataGridTextColumn Header="Наличие, кг" Binding="{Binding StartKg, Converter={StaticResource Number}, ConverterParameter=N0}" IsReadOnly="True" Width="130" ElementStyle="{StaticResource RightCell}" />
+                <DataGridTextColumn Header="Наличие, запр" Binding="{Binding StartRefills, Converter={StaticResource Number}}" IsReadOnly="True" Width="120" ElementStyle="{StaticResource RightCell}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>

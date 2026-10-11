@@ -1,0 +1,247 @@
+<UserControl x:Class="FuelLog.Supply.Views.HelpView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <Style x:Key="SectionIcon" TargetType="Border">
+            <Setter Property="Width" Value="36" />
+            <Setter Property="Height" Value="36" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Margin" Value="0,0,12,0" />
+            <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+        </Style>
+        <Style x:Key="IconText" TargetType="TextBlock" BasedOn="{StaticResource Glyph}">
+            <Setter Property="FontSize" Value="17" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{DynamicResource AccentTextFillColorPrimaryBrush}" />
+        </Style>
+        <Style x:Key="H" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="Section" TargetType="StackPanel">
+            <Setter Property="Margin" Value="0,32,0,0" />
+        </Style>
+        <Style x:Key="P" TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="LineHeight" Value="21" />
+            <Setter Property="Margin" Value="0,0,0,8" />
+        </Style>
+        <Style x:Key="Muted" TargetType="TextBlock" BasedOn="{StaticResource P}">
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+        </Style>
+        <Style x:Key="Bullet" TargetType="ContentControl">
+            <Setter Property="Margin" Value="0,0,0,8" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ContentControl">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="18" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Ellipse Width="6" Height="6" Fill="{DynamicResource AccentFillColorDefaultBrush}"
+                                     HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,8,0,0" />
+                            <ContentPresenter Grid.Column="1" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="Formula" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+            <Setter Property="BorderThickness" Value="3,0,0,0" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="Padding" Value="14,10" />
+            <Setter Property="Margin" Value="0,0,0,8" />
+        </Style>
+        <Style x:Key="Mono" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Consolas, Courier New" />
+            <Setter Property="FontSize" Value="13.5" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+        <Style x:Key="StepBadge" TargetType="Border">
+            <Setter Property="Width" Value="30" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="CornerRadius" Value="15" />
+            <Setter Property="Background" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Margin" Value="0,0,0,12" />
+        </Style>
+        <Style x:Key="StepNumber" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextOnAccentFillColorPrimaryBrush}" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="TocLink" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="Transparent" CornerRadius="6" Padding="10,7">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="230" />
+            <ColumnDefinition Width="24" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Border Style="{StaticResource Card}" Padding="8,12" VerticalAlignment="Top">
+            <StackPanel>
+                <TextBlock Text="СОДЕРЖАНИЕ" FontSize="11" FontWeight="SemiBold" Margin="10,0,0,8" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                <Button Style="{StaticResource TocLink}" Content="Быстрый старт" Tag="SecStart" Click="OnTocClick" />
+                <Button Style="{StaticResource TocLink}" Content="Связь с FuelLog" Tag="SecLinks" Click="OnTocClick" />
+                <Button Style="{StaticResource TocLink}" Content="Структура и нормы" Tag="SecStructure" Click="OnTocClick" />
+                <Button Style="{StaticResource TocLink}" Content="Сутки и операции" Tag="SecDay" Click="OnTocClick" />
+                <Button Style="{StaticResource TocLink}" Content="Методика расчёта" Tag="SecMethod" Click="OnTocClick" />
+                <Button Style="{StaticResource TocLink}" Content="Хранение данных" Tag="SecData" Click="OnTocClick" />
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer x:Name="Scroller" Grid.Column="2" VerticalScrollBarVisibility="Auto">
+            <StackPanel MaxWidth="900" HorizontalAlignment="Left" Margin="0,0,16,32">
+                <Border CornerRadius="12" Padding="28,24">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Offset="0" Color="{DynamicResource {x:Static SystemColors.AccentColorDark3Key}}" />
+                            <GradientStop Offset="1" Color="{DynamicResource {x:Static SystemColors.AccentColorDark1Key}}" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <DockPanel>
+                        <Border DockPanel.Dock="Left" Width="56" Height="56" CornerRadius="14" Background="#26FFFFFF" Margin="0,0,18,0">
+                            <TextBlock Text="&#xE897;" Style="{StaticResource Glyph}" FontSize="26" Foreground="White" HorizontalAlignment="Center" />
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Потребность и автономность" FontSize="24" FontWeight="SemiBold" Foreground="White" />
+                            <TextBlock Text="Документ по запасам ГСМ рд по суткам — модель 2, связанная с проектами FuelLog."
+                                       Foreground="#E6FFFFFF" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+
+                <!-- Быстрый старт -->
+                <StackPanel x:Name="SecStart" Style="{StaticResource Section}" Margin="0,28,0,0">
+                    <DockPanel Margin="0,0,0,14">
+                        <Border Style="{StaticResource SectionIcon}"><TextBlock Text="&#xE7C1;" Style="{StaticResource IconText}" /></Border>
+                        <TextBlock Text="Быстрый старт" Style="{StaticResource H}" />
+                    </DockPanel>
+                    <UniformGrid Columns="2">
+                        <Border Style="{StaticResource Card}" Margin="0,0,8,8">
+                            <StackPanel>
+                                <Border Style="{StaticResource StepBadge}"><TextBlock Text="1" Style="{StaticResource StepNumber}" /></Border>
+                                <TextBlock Text="Привяжите проект FuelLog" FontWeight="SemiBold" Margin="0,0,0,4" />
+                                <TextBlock Style="{StaticResource Muted}" Margin="0"
+                                           Text="«Модели 1» → «Привязать проект FuelLog…». Структура документа строится по его частям и подразделениям." />
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource Card}" Margin="8,0,0,8">
+                            <StackPanel>
+                                <Border Style="{StaticResource StepBadge}"><TextBlock Text="2" Style="{StaticResource StepNumber}" /></Border>
+                                <TextBlock Text="Проверьте структуру и нормы" FontWeight="SemiBold" Margin="0,0,0,4" />
+                                <TextBlock Style="{StaticResource Muted}" Margin="0"
+                                           Text="Склады, БМТО и РМТО, установленные запасы по приказу №074, склад части и подразделение подвоза." />
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource Card}" Margin="0,8,8,0">
+                            <StackPanel>
+                                <Border Style="{StaticResource StepBadge}"><TextBlock Text="3" Style="{StaticResource StepNumber}" /></Border>
+                                <TextBlock Text="Внесите наличие и транспорт" FontWeight="SemiBold" Margin="0,0,0,4" />
+                                <TextBlock Style="{StaticResource Muted}" Margin="0"
+                                           Text="«Наличие запасов» — по книгам учёта для складов; «Транспорт подвоза» — цистерны БМТО и РМТО." />
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource Card}" Margin="8,8,0,0">
+                            <StackPanel>
+                                <Border Style="{StaticResource StepBadge}"><TextBlock Text="4" Style="{StaticResource StepNumber}" /></Border>
+                                <TextBlock Text="Ведите сутки" FontWeight="SemiBold" Margin="0,0,0,4" />
+                                <TextBlock Style="{StaticResource Muted}" Margin="0"
+                                           Text="Каждый день: дозаправка, подвоз, загрузка транспорта, потери — и «Сформировать Excel»." />
+                            </StackPanel>
+                        </Border>
+                    </UniformGrid>
+                </StackPanel>
+
+                <!-- Связь с FuelLog -->
+                <StackPanel x:Name="SecLinks" Style="{StaticResource Section}">
+                    <DockPanel Margin="0,0,0,12">
+                        <Border Style="{StaticResource SectionIcon}"><TextBlock Text="&#xE71B;" Style="{StaticResource IconText}" /></Border>
+                        <TextBlock Text="Связь с FuelLog (модель 1)" Style="{StaticResource H}" />
+                    </DockPanel>
+                    <ContentControl Style="{StaticResource Bullet}"><TextBlock Style="{StaticResource P}" Margin="0" Text="Из проектов FuelLog берутся: масса заправки (Мз) техники каждого подразделения с учётом плотности, расход на выполнение задач за дату суток и среднесуточный расход (для автономности). Учитываются задачи, отмеченные «в расчёт»." /></ContentControl>
+                    <ContentControl Style="{StaticResource Bullet}"><TextBlock Style="{StaticResource P}" Margin="0" Text="Можно привязать несколько проектов — например, отдельный на каждую часть. Проекты только читаются; правки в FuelLog подхватываются автоматически при переходе между вкладками или по кнопке «Обновить»." /></ContentControl>
+                    <ContentControl Style="{StaticResource Bullet}"><TextBlock Style="{StaticResource P}" Margin="0" Text="«Сопоставить структуру» привязывает строки к подразделениям FuelLog по названиям (без учёта пробелов и регистра: «1 рдн» = «1рдн»), добавляет недостающие части и подразделения. Привязку строки можно изменить вручную в «Структуре и нормах»." /></ContentControl>
+                    <ContentControl Style="{StaticResource Bullet}"><TextBlock Style="{StaticResource P}" Margin="0" Text="Пути к проектам хранятся относительно файла документа: папку с документом и проектами можно переносить целиком." /></ContentControl>
+                </StackPanel>
+
+                <!-- Структура -->
+                <StackPanel x:Name="SecStructure" Style="{StaticResource Section}">
+                    <DockPanel Margin="0,0,0,12">
+                        <Border Style="{StaticResource SectionIcon}"><TextBlock Text="&#xE716;" Style="{StaticResource IconText}" /></Border>
+                        <TextBlock Text="Структура и нормы" Style="{StaticResource H}" />
+                    </DockPanel>
+                    <ContentControl Style="{StaticResource Bullet}"><TextBlock Style="{StaticResource P}" Margin="0" Text="Строки бывают двух видов: подразделение (своя техника из FuelLog) и склад (своей техники нет). Новая часть с названием «…рп», «трб» или «управление» создаётся по типовой структуре." /></ContentControl>
+                    <ContentControl Style="{StaticResource Bullet}"><TextBlock Style="{StaticResource P}" Margin="0" Text="Установленные запасы задаются слагаемыми «заправок × масса заправки области»: своей техники, своей воинской части, всей рд или выбранных частей. Типовые значения: подразделения — 1; рдн — 1,4; склад рд управления — 3,1 × вся рд; БМТО — 1 × своя + 0,4 × вся рд; склад рд в рп (трб) — 2,3 × своя часть; склад трб — 0,5 × трб; РМТО рп — 1 × своя + 0,4 × рп; рмто трб — 1 × своя + 0,3 × трб." /></ContentControl>
+                    <ContentControl Style="{StaticResource Bullet}"><TextBlock Style="{StaticResource P}" Margin="0" Text="Для каждой части назначаются склад части (дозаправка подразделений, загрузка транспорта, приём подвоза) и подразделение подвоза (БМТО, РМТО — владелец транспорта). Один склад отмечается как склад рд (главный)." /></ContentControl>
+                </StackPanel>
+
+                <!-- Сутки -->
+                <StackPanel x:Name="SecDay" Style="{StaticResource Section}">
+                    <DockPanel Margin="0,0,0,12">
+                        <Border Style="{StaticResource SectionIcon}"><TextBlock Text="&#xE787;" Style="{StaticResource IconText}" /></Border>
+                        <TextBlock Text="Сутки и операции" Style="{StaticResource H}" />
+                    </DockPanel>
+                    <ContentControl Style="{StaticResource Bullet}"><TextBlock Style="{StaticResource P}" Margin="0" Text="Документ ведётся по суткам; дата — дата суток. При открытии программа предлагает создать сутки на сегодня. Остаток новых суток — наличие предыдущих. Удалять можно только последние сутки." /></ContentControl>
+                    <ContentControl Style="{StaticResource Bullet}"><TextBlock Style="{StaticResource P}" Margin="0" Text="Переключатель ДТ / АБ — отдельные вкладки документа по видам топлива; операции вводятся для каждого вида отдельно." /></ContentControl>
+                    <ContentControl Style="{StaticResource Bullet}"><TextBlock Style="{StaticResource P}" Margin="0" Text="Дозаправка ВВСТ: отметили подразделение — со склада части списывается топливо до установленных запасов подразделения (или указанное количество), подразделению оно приходуется." /></ContentControl>
+                    <ContentControl Style="{StaticResource Bullet}"><TextBlock Style="{StaticResource P}" Margin="0" Text="Подвоз ГСМ: получение склада рд — от округа; получение складов частей автоматически списывается со склада рд (графа «выдача»)." /></ContentControl>
+                    <ContentControl Style="{StaticResource Bullet}"><TextBlock Style="{StaticResource P}" Margin="0" Text="Загрузка в транспорт: «топливо в транспорте» списывает со склада части объём возможностей транспорта подвоза и передаёт его БМТО/РМТО; «топливо на складе» возвращает обратно. Состояние переносится на следующие сутки." /></ContentControl>
+                    <ContentControl Style="{StaticResource Bullet}"><TextBlock Style="{StaticResource P}" Margin="0" Text="Потери — вручную. Расход на выполнение БЗ — из FuelLog за дату суток." /></ContentControl>
+                </StackPanel>
+
+                <!-- Методика -->
+                <StackPanel x:Name="SecMethod" Style="{StaticResource Section}">
+                    <DockPanel Margin="0,0,0,12">
+                        <Border Style="{StaticResource SectionIcon}"><TextBlock Text="&#xE8EF;" Style="{StaticResource IconText}" /></Border>
+                        <TextBlock Text="Методика расчёта" Style="{StaticResource H}" />
+                    </DockPanel>
+                    <Border Style="{StaticResource Formula}"><TextBlock Style="{StaticResource Mono}" Text="З (кг) = Σ заправок × Мз области; З (запр) = Σ заправок" /></Border>
+                    <Border Style="{StaticResource Formula}"><TextBlock Style="{StaticResource Mono}" Text="О = Н предыдущих суток (первые сутки — «Наличие запасов»)" /></Border>
+                    <Border Style="{StaticResource Formula}"><TextBlock Style="{StaticResource Mono}" Text="Пр = дозаправка ВВСТ + подвоз (получено) + загрузка транспорта (принято)" /></Border>
+                    <Border Style="{StaticResource Formula}"><TextBlock Style="{StaticResource Mono}" Text="R = расход на БЗ (FuelLog) + выдача на дозаправку + выдача при подвозе + загрузка транспорта (передано)" /></Border>
+                    <Border Style="{StaticResource Formula}"><TextBlock Style="{StaticResource Mono}" Text="Н = О + Пр − (R + Р);   П = З − Н;   А = Н / среднесуточный расход (сут)" /></Border>
+                    <TextBlock Style="{StaticResource Muted}"
+                               Text="Заправки (запр) в строке = кг / масса одной заправки строки: З(кг) / З(запр); у склада без нормы — масса заправки его части. Автономность подразделения — по его среднесуточному расходу из FuelLog; склада и подразделения подвоза — по расходу части (рд), которую они обеспечивают." />
+                </StackPanel>
+
+                <!-- Данные -->
+                <StackPanel x:Name="SecData" Style="{StaticResource Section}">
+                    <DockPanel Margin="0,0,0,12">
+                        <Border Style="{StaticResource SectionIcon}"><TextBlock Text="&#xE74E;" Style="{StaticResource IconText}" /></Border>
+                        <TextBlock Text="Хранение данных" Style="{StaticResource H}" />
+                    </DockPanel>
+                    <ContentControl Style="{StaticResource Bullet}"><TextBlock Style="{StaticResource P}" Margin="0" Text="Документ — один файл *.gsmsupply (JSON). Автосохранение через секунду, последние 10 версий — в папке «Резервные копии»." /></ContentControl>
+                    <ContentControl Style="{StaticResource Bullet}"><TextBlock Style="{StaticResource P}" Margin="0" Text="«Сформировать Excel» сохраняет документ за выбранные сутки в папку «Отчёты»: вкладки ДТ и АБ по установленной форме и лист «Операции»." /></ContentControl>
+                    <ContentControl Style="{StaticResource Bullet}"><TextBlock Style="{StaticResource P}" Margin="0" Text="Клавиши: Ctrl+N — новый документ, Ctrl+O — открыть, Ctrl+S — сохранить сразу, F1 — справка." /></ContentControl>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

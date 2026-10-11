@@ -1,0 +1,115 @@
+<UserControl x:Class="FuelLog.Supply.Views.TransportView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:FuelLog.Supply.ViewModels">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="16" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- ===== Типовой транспорт ===== -->
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Margin="0,0,0,10">
+                <TextBlock Text="Типовой транспорт подвоза" Style="{StaticResource SectionTitle}" Margin="0" />
+                <TextBlock Style="{StaticResource Hint}" Text="Марки ВВСТ и вместимость цистерны одной единицы — по аналогии со справочником техники FuelLog." />
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,8,0,0">
+                <Button Content="+ Марка" Command="{Binding AddModelToCatalogCommand}" Style="{StaticResource ToolButton}" />
+                <Button Content="Удалить" Command="{Binding DeleteModelCommand}" Style="{StaticResource DangerButton}" />
+            </StackPanel>
+            <DataGrid ItemsSource="{Binding Catalog}" SelectedItem="{Binding SelectedModel}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Марка ВВСТ" Binding="{Binding Name, UpdateSourceTrigger=LostFocus}" Width="*" MinWidth="180" />
+                    <DataGridComboBoxColumn Header="Топливо" Width="90" SelectedItemBinding="{Binding Fuel}">
+                        <DataGridComboBoxColumn.ElementStyle>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="ItemsSource" Value="{Binding DataContext.FuelTypes, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                <Setter Property="ItemTemplate">
+                                    <Setter.Value>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource FuelName}}" />
+                                        </DataTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGridComboBoxColumn.ElementStyle>
+                        <DataGridComboBoxColumn.EditingElementStyle>
+                            <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+                                <Setter Property="ItemsSource" Value="{Binding DataContext.FuelTypes, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                <Setter Property="ItemTemplate">
+                                    <Setter.Value>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource FuelName}}" />
+                                        </DataTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGridComboBoxColumn.EditingElementStyle>
+                    </DataGridComboBoxColumn>
+                    <DataGridTextColumn Header="Вместимость 1 ед., л" Width="150"
+                                        Binding="{Binding CapacityLiters, Converter={StaticResource InputNumber}}"
+                                        ElementStyle="{StaticResource RightCell}" EditingElementStyle="{StaticResource NumberEdit}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+
+        <!-- ===== Наличие транспорта у части ===== -->
+        <DockPanel Grid.Column="2">
+            <StackPanel DockPanel.Dock="Top" Margin="0,0,0,10">
+                <TextBlock Text="Наличие транспорта подвоза" Style="{StaticResource SectionTitle}" Margin="0" />
+                <ComboBox ItemsSource="{Binding Groups}" SelectedItem="{Binding SelectedGroup}" DisplayMemberPath="Name" Margin="0,8,0,6" />
+                <TextBlock Text="{Binding TransportUnitText}" Style="{StaticResource Hint}" FontSize="12" />
+            </StackPanel>
+
+            <Border DockPanel.Dock="Bottom" Style="{StaticResource Card}" Padding="12" Margin="0,8,0,0">
+                <StackPanel>
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ComboBox ItemsSource="{Binding Catalog}" SelectedItem="{Binding AddModel}" DisplayMemberPath="Name" Margin="0,0,8,0" />
+                        <TextBox Grid.Column="1" Text="{Binding AddCount, Converter={StaticResource InputNumber}, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource NumberEdit}" Margin="0,0,8,0" ToolTip="Количество" />
+                        <Button Grid.Column="2" Content="Добавить" Command="{Binding AddItemCommand}" Style="{StaticResource AccentButtonStyle}" Padding="14,6" />
+                    </Grid>
+                    <TextBlock>
+                        <Run Text="Возможности ДТ: " Foreground="{DynamicResource TextFillColorSecondaryBrush}" /><Run Text="{Binding DieselTotal, Mode=OneWay}" FontWeight="SemiBold" />
+                    </TextBlock>
+                    <TextBlock>
+                        <Run Text="Возможности АБ: " Foreground="{DynamicResource TextFillColorSecondaryBrush}" /><Run Text="{Binding PetrolTotal, Mode=OneWay}" FontWeight="SemiBold" />
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+            <Grid>
+                <DataGrid ItemsSource="{Binding Items}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Марка ВВСТ" Binding="{Binding Model.Name}" IsReadOnly="True" Width="*" MinWidth="160" />
+                        <DataGridTextColumn Header="Топл." Binding="{Binding Model.Fuel, Converter={StaticResource FuelName}}" IsReadOnly="True" Width="56" />
+                        <DataGridTextColumn Header="Кол-во" Width="70"
+                                            Binding="{Binding Count, Converter={StaticResource InputNumber}}"
+                                            ElementStyle="{StaticResource RightCell}" EditingElementStyle="{StaticResource NumberEdit}" />
+                        <DataGridTextColumn Header="1 ед., л" Binding="{Binding Model.CapacityLiters, StringFormat=N0}" IsReadOnly="True" Width="80" ElementStyle="{StaticResource RightCell}" />
+                        <DataGridTextColumn Header="Возможности, л" Binding="{Binding TotalLiters, StringFormat=N0}" IsReadOnly="True" Width="110" ElementStyle="{StaticResource RightCell}" />
+                        <DataGridTemplateColumn Width="46">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type vm:TransportItemRow}">
+                                    <Button Content="✕" ToolTip="Убрать" Padding="6,0" MinHeight="0" Height="26"
+                                            Command="{Binding DataContext.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <TextBlock Style="{StaticResource Hint}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" MaxWidth="360"
+                           Text="У части пока нет транспорта подвоза. Выберите марку и количество ниже."
+                           Visibility="{Binding Items.Count, Converter={StaticResource VisibleWhen}, ConverterParameter=invert}" />
+            </Grid>
+        </DockPanel>
+    </Grid>
+</UserControl>

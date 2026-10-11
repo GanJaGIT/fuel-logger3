@@ -10,8 +10,6 @@
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
-        <app:EnumIndexConverter x:Key="EnumIndex" />
-
         <DataTemplate DataType="{x:Type vm:StructureViewModel}">
             <views:StructureView />
         </DataTemplate>
@@ -31,87 +29,6 @@
             <views:HelpView />
         </DataTemplate>
 
-        <!-- Пункт бокового меню: значок и подпись -->
-        <Style x:Key="NavItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-            <Setter Property="Padding" Value="12,10" />
-            <Setter Property="Margin" Value="0,2" />
-        </Style>
-        <!-- Плитка действия на стартовой странице -->
-        <Style x:Key="ActionTile" TargetType="Button">
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="Bd" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1"
-                                CornerRadius="10" Padding="20,18" MinHeight="150">
-                            <ContentPresenter />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
-                                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource ControlFillColorTertiaryBrush}" />
-                            </Trigger>
-                            <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="TileIcon" TargetType="Border">
-            <Setter Property="Width" Value="44" />
-            <Setter Property="Height" Value="44" />
-            <Setter Property="CornerRadius" Value="10" />
-            <Setter Property="Margin" Value="0,0,0,16" />
-            <Setter Property="HorizontalAlignment" Value="Left" />
-            <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
-        </Style>
-        <Style x:Key="TileGlyph" TargetType="TextBlock">
-            <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets" />
-            <Setter Property="FontSize" Value="20" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Foreground" Value="{DynamicResource AccentTextFillColorPrimaryBrush}" />
-        </Style>
-        <!-- Строка списка последних проектов -->
-        <Style x:Key="RecentRow" TargetType="Button">
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="Bd" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1"
-                                CornerRadius="8" Padding="12,10">
-                            <ContentPresenter />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource ControlFillColorTertiaryBrush}" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="NavIcon" TargetType="TextBlock">
-            <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets" />
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="Width" Value="28" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-        </Style>
     </Window.Resources>
 
     <Window.InputBindings>

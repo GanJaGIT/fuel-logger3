@@ -1,10 +1,9 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using FuelLog.App.Views;
 using Microsoft.Win32;
 
-namespace FuelLog.App.Services;
+namespace FuelLog.Ui;
 
 /// <summary>Диалоги и оболочка Windows — отделены от ViewModel, чтобы те не зависели от окон.</summary>
 public interface IDialogService

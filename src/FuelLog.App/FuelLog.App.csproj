@@ -34,6 +34,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FuelLog.Core\FuelLog.Core.csproj" />
+    <ProjectReference Include="..\FuelLog.Ui\FuelLog.Ui.csproj" />
+    <Using Include="FuelLog.Ui" />
   </ItemGroup>
 
 </Project>
