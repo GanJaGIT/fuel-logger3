@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Version>4.1.0</Version>
+    <Company>Ганжа А.А. ВА РВСН</Company>
+    <Product>FuelLog</Product>
+    <Copyright>© 2026 Ганжа А.А.</Copyright>
+    <SatelliteResourceLanguages>ru</SatelliteResourceLanguages>
+    <DebugType Condition="'$(Configuration)' == 'Release'">embedded</DebugType>
+  </PropertyGroup>
+</Project>

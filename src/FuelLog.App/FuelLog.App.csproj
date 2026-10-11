@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>FuelLog.App</RootNamespace>
+    <AssemblyName>FuelLog</AssemblyName>
+    <ApplicationIcon>Assets\fuel.ico</ApplicationIcon>
+    <Description>Учёт и расчёт расхода ГСМ</Description>
+    <!-- Тема Fluent (ThemeMode) в WPF помечена как экспериментальная. -->
+    <NoWarn>$(NoWarn);WPF0001</NoWarn>
+  </PropertyGroup>
+
+  <!-- Публикация: самодостаточный exe (.NET ставить не нужно). Нативные библиотеки WPF лежат рядом
+       с exe, а не распаковываются во временную папку при запуске — это важно для Secret Net (ЗПС). -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <PublishReadyToRun>true</PublishReadyToRun>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\fuel.ico" />
+  </ItemGroup>
+
+  <!-- Демонстрационный проект для кнопки «Открыть пример» лежит рядом с exe. -->
+  <ItemGroup>
+    <None Include="..\..\samples\Пример.gsmproject" Link="Samples\example.gsmproject"
+          CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FuelLog.Core\FuelLog.Core.csproj" />
+  </ItemGroup>
+
+</Project>

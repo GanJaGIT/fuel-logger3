@@ -1,0 +1,420 @@
+{
+  "schemaVersion": 1,
+  "name": "Пример расчёта",
+  "settings": {
+    "petrolDensity": 0.75,
+    "dieselDensity": 0.85,
+    "taskTypes": [
+      "Совершение марша",
+      "Разведка",
+      "Инженерная подготовка",
+      "Несение дежурства",
+      "Подвоз ГСМ",
+      "Подвоз боеприпасов",
+      "Подвоз продовольствия",
+      "Подвоз воды",
+      "Медицинская эвакуация",
+      "Другое"
+    ],
+    "categories": [
+      "РВО",
+      "АС",
+      "НС",
+      "РХБЗ",
+      "ПС",
+      "ВС",
+      "ГСМ",
+      "Мед Сл",
+      "ППЗ и СР",
+      "Связь",
+      "Другое"
+    ]
+  },
+  "catalog": [
+    {
+      "id": "9745024b-b740-4159-af45-2df3287df2b1",
+      "name": "КамАЗ-4310",
+      "fuel": "Diesel",
+      "mainTankLiters": 250,
+      "extraTankLiters": 125,
+      "litersPer100Km": 40,
+      "litersPerHour": 5,
+      "category": "АС",
+      "note": ""
+    },
+    {
+      "id": "7c4edf14-859a-4c73-bf9d-ce7f9240ef59",
+      "name": "Урал-4320",
+      "fuel": "Diesel",
+      "mainTankLiters": 300,
+      "extraTankLiters": 60,
+      "litersPer100Km": 42,
+      "litersPerHour": 6,
+      "category": "АС",
+      "note": ""
+    },
+    {
+      "id": "bddca7b3-4f20-4419-8c29-540a0d221d3f",
+      "name": "МАЗ-543",
+      "fuel": "Diesel",
+      "mainTankLiters": 850,
+      "extraTankLiters": 0,
+      "litersPer100Km": 125,
+      "litersPerHour": 18,
+      "category": "РВО",
+      "note": ""
+    },
+    {
+      "id": "f53f76f5-0eb0-4d43-9f9c-7aa2a357e2c9",
+      "name": "ЗИЛ-131",
+      "fuel": "Petrol",
+      "mainTankLiters": 170,
+      "extraTankLiters": 170,
+      "litersPer100Km": 49,
+      "litersPerHour": 6,
+      "category": "ГСМ",
+      "note": ""
+    },
+    {
+      "id": "99e0a54d-0ded-4c15-9fb6-b5211c2e686c",
+      "name": "ГАЗ-66",
+      "fuel": "Petrol",
+      "mainTankLiters": 210,
+      "extraTankLiters": 0,
+      "litersPer100Km": 32,
+      "litersPerHour": 4,
+      "category": "Связь",
+      "note": ""
+    },
+    {
+      "id": "a1e804a8-0160-4f43-a278-2c417e94d706",
+      "name": "УАЗ-469",
+      "fuel": "Petrol",
+      "mainTankLiters": 78,
+      "extraTankLiters": 0,
+      "litersPer100Km": 16,
+      "litersPerHour": 2,
+      "category": "Другое",
+      "note": ""
+    },
+    {
+      "id": "d2f7ab7d-284d-443e-aa5a-d89c01dd4065",
+      "name": "БТР-80",
+      "fuel": "Diesel",
+      "mainTankLiters": 290,
+      "extraTankLiters": 0,
+      "litersPer100Km": 50,
+      "litersPerHour": 12,
+      "category": "ВС",
+      "note": ""
+    }
+  ],
+  "groups": [
+    {
+      "id": "8e0c938b-14f8-4c81-bda2-0eb0f3839e2d",
+      "name": "1рп",
+      "units": [
+        {
+          "id": "d764c707-6f16-4a0b-b816-ad051b59ac99",
+          "name": "1 рдн",
+          "vehicles": [
+            {
+              "modelId": "bddca7b3-4f20-4419-8c29-540a0d221d3f",
+              "count": 6
+            },
+            {
+              "modelId": "9745024b-b740-4159-af45-2df3287df2b1",
+              "count": 4
+            },
+            {
+              "modelId": "a1e804a8-0160-4f43-a278-2c417e94d706",
+              "count": 2
+            },
+            {
+              "modelId": "99e0a54d-0ded-4c15-9fb6-b5211c2e686c",
+              "count": 3
+            }
+          ]
+        },
+        {
+          "id": "1d7c70a7-471d-45d6-aa64-649bdfda4aa8",
+          "name": "2 рдн",
+          "vehicles": [
+            {
+              "modelId": "bddca7b3-4f20-4419-8c29-540a0d221d3f",
+              "count": 6
+            },
+            {
+              "modelId": "7c4edf14-859a-4c73-bf9d-ce7f9240ef59",
+              "count": 4
+            },
+            {
+              "modelId": "a1e804a8-0160-4f43-a278-2c417e94d706",
+              "count": 2
+            },
+            {
+              "modelId": "99e0a54d-0ded-4c15-9fb6-b5211c2e686c",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "id": "2b662d82-4db0-457a-ac4c-90dcfa008163",
+          "name": "рмто",
+          "vehicles": [
+            {
+              "modelId": "f53f76f5-0eb0-4d43-9f9c-7aa2a357e2c9",
+              "count": 4
+            },
+            {
+              "modelId": "9745024b-b740-4159-af45-2df3287df2b1",
+              "count": 6
+            },
+            {
+              "modelId": "7c4edf14-859a-4c73-bf9d-ce7f9240ef59",
+              "count": 3
+            }
+          ]
+        },
+        {
+          "id": "8c12a9cd-6f6a-4abb-a53c-14c333ebbe41",
+          "name": "рохр",
+          "vehicles": [
+            {
+              "modelId": "d2f7ab7d-284d-443e-aa5a-d89c01dd4065",
+              "count": 4
+            },
+            {
+              "modelId": "a1e804a8-0160-4f43-a278-2c417e94d706",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "0671c46c-b660-4a1a-bf8e-78d57e245f8e",
+      "name": "2рп",
+      "units": [
+        {
+          "id": "305cf6c1-0122-43ef-8390-440019f85ade",
+          "name": "1 рдн",
+          "vehicles": [
+            {
+              "modelId": "bddca7b3-4f20-4419-8c29-540a0d221d3f",
+              "count": 6
+            },
+            {
+              "modelId": "9745024b-b740-4159-af45-2df3287df2b1",
+              "count": 4
+            },
+            {
+              "modelId": "a1e804a8-0160-4f43-a278-2c417e94d706",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "413fa549-50f1-4f70-b8d8-8d85f630c4dd",
+      "name": "Совершение марша",
+      "taskType": "Совершение марша",
+      "date": "2026-03-10",
+      "isIncluded": true,
+      "note": "",
+      "items": [
+        {
+          "unitId": "d764c707-6f16-4a0b-b816-ad051b59ac99",
+          "modelId": "bddca7b3-4f20-4419-8c29-540a0d221d3f",
+          "count": 6,
+          "distanceKm": 120,
+          "workHours": 0,
+          "lossPercent": 0
+        },
+        {
+          "unitId": "d764c707-6f16-4a0b-b816-ad051b59ac99",
+          "modelId": "a1e804a8-0160-4f43-a278-2c417e94d706",
+          "count": 2,
+          "distanceKm": 120,
+          "workHours": 0,
+          "lossPercent": 0
+        },
+        {
+          "unitId": "1d7c70a7-471d-45d6-aa64-649bdfda4aa8",
+          "modelId": "bddca7b3-4f20-4419-8c29-540a0d221d3f",
+          "count": 6,
+          "distanceKm": 90,
+          "workHours": 0,
+          "lossPercent": 0
+        },
+        {
+          "unitId": "1d7c70a7-471d-45d6-aa64-649bdfda4aa8",
+          "modelId": "7c4edf14-859a-4c73-bf9d-ce7f9240ef59",
+          "count": 4,
+          "distanceKm": 90,
+          "workHours": 0,
+          "lossPercent": 0
+        }
+      ]
+    },
+    {
+      "id": "d2f4ffc2-5c91-4a85-966a-2f95ae6bcdca",
+      "name": "Разведка ПП",
+      "taskType": "Разведка ПП",
+      "date": "2026-03-10",
+      "isIncluded": true,
+      "note": "",
+      "items": [
+        {
+          "unitId": "d764c707-6f16-4a0b-b816-ad051b59ac99",
+          "modelId": "a1e804a8-0160-4f43-a278-2c417e94d706",
+          "count": 2,
+          "distanceKm": 60,
+          "workHours": 2,
+          "lossPercent": 0
+        },
+        {
+          "unitId": "1d7c70a7-471d-45d6-aa64-649bdfda4aa8",
+          "modelId": "a1e804a8-0160-4f43-a278-2c417e94d706",
+          "count": 2,
+          "distanceKm": 45,
+          "workHours": 2,
+          "lossPercent": 0
+        }
+      ]
+    },
+    {
+      "id": "f3afc183-1fa8-4b20-90f0-2709f8e0e65c",
+      "name": "Инженерная подготовка ПП",
+      "taskType": "Инженерная подготовка ПП",
+      "date": "2026-03-10",
+      "isIncluded": true,
+      "note": "",
+      "items": [
+        {
+          "unitId": "d764c707-6f16-4a0b-b816-ad051b59ac99",
+          "modelId": "9745024b-b740-4159-af45-2df3287df2b1",
+          "count": 4,
+          "distanceKm": 10,
+          "workHours": 6,
+          "lossPercent": 0
+        },
+        {
+          "unitId": "1d7c70a7-471d-45d6-aa64-649bdfda4aa8",
+          "modelId": "7c4edf14-859a-4c73-bf9d-ce7f9240ef59",
+          "count": 4,
+          "distanceKm": 10,
+          "workHours": 6,
+          "lossPercent": 0
+        }
+      ]
+    },
+    {
+      "id": "a8acaa38-e9c6-4fb6-b53c-da536aae4969",
+      "name": "Несение дежурства на МБП (ПП)",
+      "taskType": "Несение дежурства на МБП (ПП)",
+      "date": "2026-03-10",
+      "isIncluded": true,
+      "note": "",
+      "items": [
+        {
+          "unitId": "d764c707-6f16-4a0b-b816-ad051b59ac99",
+          "modelId": "bddca7b3-4f20-4419-8c29-540a0d221d3f",
+          "count": 6,
+          "distanceKm": 0,
+          "workHours": 8,
+          "lossPercent": 0
+        },
+        {
+          "unitId": "d764c707-6f16-4a0b-b816-ad051b59ac99",
+          "modelId": "99e0a54d-0ded-4c15-9fb6-b5211c2e686c",
+          "count": 3,
+          "distanceKm": 0,
+          "workHours": 12,
+          "lossPercent": 0
+        },
+        {
+          "unitId": "1d7c70a7-471d-45d6-aa64-649bdfda4aa8",
+          "modelId": "bddca7b3-4f20-4419-8c29-540a0d221d3f",
+          "count": 6,
+          "distanceKm": 0,
+          "workHours": 8,
+          "lossPercent": 0
+        }
+      ]
+    },
+    {
+      "id": "3154b160-74b6-439d-a170-cb6a5ddf727b",
+      "name": "Подвоз ГСМ на ПП",
+      "taskType": "Подвоз ГСМ на ПП",
+      "date": "2026-03-10",
+      "isIncluded": true,
+      "note": "",
+      "items": [
+        {
+          "unitId": "2b662d82-4db0-457a-ac4c-90dcfa008163",
+          "modelId": "f53f76f5-0eb0-4d43-9f9c-7aa2a357e2c9",
+          "count": 4,
+          "distanceKm": 80,
+          "workHours": 1,
+          "lossPercent": 0
+        },
+        {
+          "unitId": "2b662d82-4db0-457a-ac4c-90dcfa008163",
+          "modelId": "9745024b-b740-4159-af45-2df3287df2b1",
+          "count": 6,
+          "distanceKm": 80,
+          "workHours": 1,
+          "lossPercent": 0
+        }
+      ]
+    },
+    {
+      "id": "dc2dae0c-e904-4496-86d6-04f7f0da70a4",
+      "name": "Подвоз продовольствия на ПП",
+      "taskType": "Подвоз продовольствия на ПП",
+      "date": "2026-03-10",
+      "isIncluded": true,
+      "note": "",
+      "items": [
+        {
+          "unitId": "2b662d82-4db0-457a-ac4c-90dcfa008163",
+          "modelId": "7c4edf14-859a-4c73-bf9d-ce7f9240ef59",
+          "count": 3,
+          "distanceKm": 60,
+          "workHours": 1,
+          "lossPercent": 0
+        }
+      ]
+    },
+    {
+      "id": "93262b03-615a-4f81-8465-cf465876cbec",
+      "name": "Совершение марша",
+      "taskType": "Совершение марша",
+      "date": "2026-03-11",
+      "isIncluded": true,
+      "note": "",
+      "items": [
+        {
+          "unitId": "305cf6c1-0122-43ef-8390-440019f85ade",
+          "modelId": "bddca7b3-4f20-4419-8c29-540a0d221d3f",
+          "count": 6,
+          "distanceKm": 150,
+          "workHours": 0,
+          "lossPercent": 17
+        },
+        {
+          "unitId": "305cf6c1-0122-43ef-8390-440019f85ade",
+          "modelId": "9745024b-b740-4159-af45-2df3287df2b1",
+          "count": 4,
+          "distanceKm": 150,
+          "workHours": 0,
+          "lossPercent": 25
+        }
+      ]
+    }
+  ]
+}

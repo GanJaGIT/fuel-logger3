@@ -1,0 +1,136 @@
+<UserControl x:Class="FuelLog.App.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:FuelLog.App.ViewModels">
+    <UserControl.Resources>
+        <!-- Редактор списка строк: используется для типов задач и категорий техники -->
+        <DataTemplate x:Key="ListEditorTemplate" DataType="{x:Type vm:ListEditor}">
+            <DockPanel>
+                <Grid DockPanel.Dock="Top" Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Text="{Binding NewItem, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,8,0">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Enter" Command="{Binding AddCommand}" />
+                        </TextBox.InputBindings>
+                    </TextBox>
+                    <Button Grid.Column="1" Content="Добавить" Command="{Binding AddCommand}" />
+                </Grid>
+                <WrapPanel DockPanel.Dock="Bottom" Margin="0,8,0,0">
+                    <Button Content="Переименовать" Command="{Binding RenameCommand}" Padding="8,4" Margin="0,0,4,4" />
+                    <Button Content="↑" Command="{Binding MoveUpCommand}" Padding="10,4" Margin="0,0,4,4" />
+                    <Button Content="↓" Command="{Binding MoveDownCommand}" Padding="10,4" Margin="0,0,4,4" />
+                    <Button Content="Удалить" Command="{Binding RemoveCommand}" Padding="8,4" Margin="0,0,4,4" />
+                    <Button Content="По умолчанию" Command="{Binding ResetCommand}" Padding="8,4" Margin="0,0,4,4" />
+                </WrapPanel>
+                <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding Selected}" Height="230" />
+            </DockPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel MaxWidth="1100" HorizontalAlignment="Left">
+            <TextBlock Text="Настройки" Style="{StaticResource SectionTitle}" />
+
+            <Grid Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Style="{StaticResource Card}">
+                    <StackPanel>
+                        <TextBlock Text="Проект" FontWeight="SemiBold" Margin="0,0,0,12" />
+                        <TextBlock Text="Название" Style="{StaticResource FieldLabel}" />
+                        <TextBox Text="{Binding Project.Name, UpdateSourceTrigger=LostFocus}" Margin="0,0,0,12" />
+                        <TextBlock Text="Файл проекта" Style="{StaticResource FieldLabel}" />
+                        <TextBlock Text="{Binding FilePath}" TextWrapping="Wrap" Margin="0,0,0,12" />
+                        <TextBlock Style="{StaticResource Hint}" Margin="0,0,0,8"
+                                   Text="Изменения сохраняются автоматически. При каждом сохранении предыдущая версия файла попадает в папку «Резервные копии» (хранятся последние 10)." />
+                        <Button Content="Открыть резервные копии" Command="{Binding ShowBackupsCommand}" HorizontalAlignment="Left" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="2" Style="{StaticResource Card}">
+                    <StackPanel>
+                        <TextBlock Text="Плотность топлива" FontWeight="SemiBold" Margin="0,0,0,12" />
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="120" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="АБ (автобензин), кг/л" VerticalAlignment="Center" />
+                            <TextBox Grid.Column="1" Style="{StaticResource NumberEdit}"
+                                     Text="{Binding Settings.PetrolDensity, Converter={StaticResource InputNumber}}" />
+                        </Grid>
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="120" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="ДТ (дизельное топливо), кг/л" VerticalAlignment="Center" />
+                            <TextBox Grid.Column="1" Style="{StaticResource NumberEdit}"
+                                     Text="{Binding Settings.DieselDensity, Converter={StaticResource InputNumber}}" />
+                        </Grid>
+                        <TextBlock Style="{StaticResource Hint}" Margin="0,0,0,8"
+                                   Text="Используется для перевода литров в килограммы и для расчёта массы заправки." />
+                        <Button Content="Значения по умолчанию" Command="{Binding ResetDensitiesCommand}" HorizontalAlignment="Left" />
+
+                        <TextBlock Text="Оформление" FontWeight="SemiBold" Margin="0,20,0,8" />
+                        <ComboBox ItemsSource="{Binding Themes}" SelectedItem="{Binding Theme}" Width="220" HorizontalAlignment="Left">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="Как в Windows" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding}" Value="Light">
+                                                        <Setter Property="Text" Value="Светлая тема" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding}" Value="Dark">
+                                                        <Setter Property="Text" Value="Тёмная тема" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding}" Value="Gray">
+                                                        <Setter Property="Text" Value="Серая тема" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource Card}">
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Top" Text="Типы задач" FontWeight="SemiBold" Margin="0,0,0,4" />
+                        <TextBlock DockPanel.Dock="Top" Style="{StaticResource Hint}" Margin="0,0,0,8"
+                                   Text="Подсказки для поля «Тип задачи». Можно ввести и значение, которого нет в списке." />
+                        <ContentControl Content="{Binding TaskTypes}" ContentTemplate="{StaticResource ListEditorTemplate}" />
+                    </DockPanel>
+                </Border>
+                <Border Grid.Column="2" Style="{StaticResource Card}">
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Top" Text="Категории техники" FontWeight="SemiBold" Margin="0,0,0,4" />
+                        <TextBlock DockPanel.Dock="Top" Style="{StaticResource Hint}" Margin="0,0,0,8"
+                                   Text="Используются для группировки и фильтра в справочнике техники." />
+                        <ContentControl Content="{Binding Categories}" ContentTemplate="{StaticResource ListEditorTemplate}" />
+                    </DockPanel>
+                </Border>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

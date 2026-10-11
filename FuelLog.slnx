@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/FuelLog.Core/FuelLog.Core.csproj" />
+    <Project Path="src/FuelLog.App/FuelLog.App.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/FuelLog.Tests/FuelLog.Tests.csproj" />
+    <Project Path="tests/FuelLog.App.Tests/FuelLog.App.Tests.csproj" />
+  </Folder>
+</Solution>
